@@ -28,8 +28,6 @@ namespace DishoutOLO.Repo
             return entities.AsQueryable();
         }
 
-
-
         public void Insert(T entity)
         {
             if (entity == null)
@@ -70,22 +68,14 @@ namespace DishoutOLO.Repo
         {
             context.SaveChanges();
         }
-
-
         public T GetByPredicate(Func<T, bool> predicate)
         {
             return entities.FirstOrDefault(predicate);
         }
-
         public IList<T> GetListByPredicate(Func<T, bool> predicate)
         {
             return entities.Where(predicate).ToList();
         }
 
-
     }
-
-
-
-
 }
