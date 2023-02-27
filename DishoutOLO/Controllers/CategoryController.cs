@@ -2,6 +2,7 @@
 using DishoutOLO.ViewModel;
 using DishoutOLO.ViewModel.Helper;
 using Microsoft.AspNetCore.Mvc;
+using static DishoutOLO.ViewModel.AddCategoryModel;
 
 namespace DishoutOLO.Controllers
 {
@@ -19,7 +20,7 @@ namespace DishoutOLO.Controllers
         }
 
         public IActionResult Create()
-            {
+        {
             return View("ManageCategory", new AddCategoryModel());
         }
 
@@ -27,7 +28,7 @@ namespace DishoutOLO.Controllers
         public JsonResult GetAllCategory(DataTableFilterModel filter)
         {
              var list = _categoryService.GetCategoryList(filter);
-             return Json(list);
+             return Json(list);     
         }
         public ActionResult Edit(int id)
         {   
@@ -37,11 +38,8 @@ namespace DishoutOLO.Controllers
 
         public JsonResult AddOrUpdateCategory(AddCategoryModel categoryVM)
         {
-            CategoryModel categoryModel = new CategoryModel();
-            categoryModel.CategoryName= categoryVM.CategoryName;
-            categoryModel.IsActive=categoryVM.IsActive;
-           
-              return Json(_categoryService.AddOrUpdateCategory(categoryModel));
+               
+              return Json(_categoryService.AddOrUpdateCategory(categoryVM));
         }
         public IActionResult DeleteCategory(int id)
         {

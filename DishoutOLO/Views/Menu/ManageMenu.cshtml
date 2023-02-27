@@ -1,0 +1,84 @@
+﻿@model DishoutOLO.ViewModel.AddMenuModel
+@{
+    ViewData["Title"] = "Manage Menu";
+}
+
+
+<div class="row">
+
+    <div class="col-xl-8 order-xl-3 ">
+        <div class="card">
+            <form id="myForm" action="javascript:;">    
+                @Html.HiddenFor(mode=>mode.Id)
+                <div class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col-12">
+                            <h3 class="mb-0">Manage Menu</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body">
+
+
+                    <div class="pl-lg-4">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MenuName,new {@class="form-control-label"})
+                                    @Html.EditorFor(model => model.MenuName, new { htmlAttributes = new { @class = "form-control required", @Placeholder = "Menu Name" } })
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.CategoryId,new {@class="form-control-label"})
+                                    @Html.DropDownListFor(f=>f.CategoryId, ViewBag.CategoryList as SelectList, "SELECT", new { @class = "form-control required" })
+                                </div>
+
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MenuPrice,new {@class="form-control-label"})
+                                @Html.EditorFor(model => model.MenuPrice, new { htmlAttributes = new { @class = "form-control required", @Placeholder = "Category Name" } })
+
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Image,new {@class="form-control-label"})
+                                    <input type="file" name="file" id="menuId" />
+
+                                </div>
+                            </div>
+                      </div>
+               </div>
+
+                </div>
+                <div class="card-footer">
+                    <div class="row align-items-center">
+                        <div class="col-12 text-center">
+                            <button type="submit" id="btn-Add" class="btn btn-md btn-primary">
+                                Save
+                            </button>
+                            <a href="/Menu/Index" class="btn btn-default">Cancel</a>
+                            <label id="lblError" class="inline"></label>
+
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/Assets/ManageMenu.js" asp-append-version="true"></script>
+}
+
+
+

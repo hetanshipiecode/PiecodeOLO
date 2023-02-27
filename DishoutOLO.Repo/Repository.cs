@@ -7,14 +7,14 @@ namespace DishoutOLO.Repo
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        private readonly FoodOrderingContext context;
+        private readonly DishoutOLOContext context;
         private DbSet<T> entities;
 
-        public Repository(FoodOrderingContext  context)
+        public Repository(DishoutOLOContext context)
         {
             this.context = context;
+            entities = context.Set<T>();
         }
-
 
         public IList<T> GetAll()
 
@@ -22,7 +22,7 @@ namespace DishoutOLO.Repo
             return entities.ToList();
         }
 
-            
+
         public IQueryable<T> GetAllAsQuerable()
         {
             return entities.AsQueryable();
@@ -37,7 +37,7 @@ namespace DishoutOLO.Repo
             entities.Add(entity);
             context.SaveChanges();
         }
-                    
+
         public void Update(T entity)
         {
             if (entity == null)

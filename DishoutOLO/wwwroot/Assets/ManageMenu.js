@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
     $("#lblError").removeClass("success").removeClass("error").text('');
-
+    debugger
     $("#btn-Add").on("click", function () {
         $("#lblError").removeClass("success").removeClass("error").text('');
         var retval = true;
@@ -9,30 +9,47 @@
                 $(this).addClass("error");
                 retval = false;
             }
-            else {  
+            else {
                 $(this).removeClass("error");
             }
         });
 
         if (retval) {
+            debugger
             var data = {
+               
                 id: $("#Id").val(),
-                CategoryName: $("#CategoryName").val(),
+                MenuName: $("#MenuName").val(),
+                CategoryId: $("#CategoryId").val(),
+                MenuPrice: $("#MenuPrice").val(),
+                Image: $("#Image").val(),
+    
                 IsActive: $("#IsActive").val() == "true" ? true : false
             }
+
+            var formData = new FormData();
+            formData.append("Id", data.id);
+            formData.append("MenuName", data.MenuName);
+            formData.append("CategoryId", data.CategoryId);
+            formData.append("MenuPrice", data.MenuPrice);
+            formData.append("File",$("#menuId")[0].files[0]);
+            formData.append("IsActive", data.IsActive);
+
             //StartProcess();
             $.ajax({
-                type: "POST",
-                url: "/Category/AddOrUpdateCategory",
-                data: { categoryVM: data },
+                url: "/Menu/AddOrUpdateMenu",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                type: 'POST', // For jQuery < 1.9
                 success: function (data) {
                     if (!data.isSuccess) {
-                        console.log(data);
                         //StopProcess();
                         $("#lblError").addClass("error").text(data.message.toString()).show();
                     }
                     else {
-                        window.location.href = '/Category/Index'
+                        window.location.href = '/Menu/Index'
                     }
                 }
             });

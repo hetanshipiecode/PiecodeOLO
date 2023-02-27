@@ -2,7 +2,7 @@
 
 var table;
 $("document").ready(function () {
-    loadAllCategory();
+    loadAllMenu();
     debugger
     // Display a success toast, with a title
     //Toast.fire({
@@ -10,7 +10,7 @@ $("document").ready(function () {
     //    title: 'Your Level is 3.'
     //})
 })
-$("#categoryTbl").on("click", "a#btn-delete", function () {
+$("#menuTbl").on("click", "a#btn-delete", function () {
     var id = $(this).data('id');
     $('#deleteModal').data('id', id).modal('show');
     $('#deleteModal').modal('show');
@@ -19,7 +19,7 @@ $('#delete-btn').click(function () {
     var id = $('#deleteModal').data('id');
     $.ajax({
         type: "GET",
-        url: "/Category/DeleteCategory",
+        url: "/Menu/DeleteMenu",
         data: { id: id },
         success: function (response) {
             if (!response.isSuccess) {
@@ -28,7 +28,7 @@ $('#delete-btn').click(function () {
             else {
                 $('#deleteModal').modal('hide');
                 table.ajax.reload()
-            //    funToastr(true, response.message);
+                //    funToastr(true, response.message);
             }
         },
         error: function (error) {
@@ -37,12 +37,12 @@ $('#delete-btn').click(function () {
 });
 
 
-function loadAllCategory() {
+function loadAllMenu() {
     debugger
-    var url = "/Category/GetAllCategory"
-   
-    table = $("#categoryTbl").DataTable({
-        
+    var url = "/Menu/GetAllMenu"
+
+    table = $("#menuTbl").DataTable({
+
         "searching": true,
         "serverSide": true,
         "bFilter": true,
@@ -52,16 +52,25 @@ function loadAllCategory() {
             type: "POST",
             datatype: "json"
         },
-        
+
         "columns": [
             {
-                "data": "categoryName"
-            },  
-            
+                "data": "menuName"
+            },
             {
-                orderable: false ,
-                "render":function(data,type,full,meta) {
-                    return ` <a href="/Category/Edit/` + full.id + `" data-id="` + full.id + `" class="btn btn-success btn-sm" title="Edit">
+                "data": "categoryId"
+            },
+            {
+                "data": "menuPrice"
+            },
+            {
+                "data": "image"
+            },
+
+            {
+                orderable: false,
+                "render": function (data, type, full, meta) {
+                    return ` <a href="/Menu/Edit/` + full.id + `" data-id="` + full.id + `" class="btn btn-success btn-sm" title="Edit">
                                     <i class="fa fa-edit"></i>
                              </a>
                              <a href="javascript:void(0)" id="btn-delete" data-id="`+ full.id + `" class="btn btn-danger btn-sm" title="Delete">
@@ -71,8 +80,8 @@ function loadAllCategory() {
             }
 
         ],
-       
+
     });
-    
+
 }
 

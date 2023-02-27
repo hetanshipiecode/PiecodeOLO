@@ -5,24 +5,26 @@ using DishoutOLO.ViewModel;
 using DishoutOLO.ViewModel.Helper;
 using AutoMapper;
 
+using static DishoutOLO.ViewModel.DishoutOLOResponseModel;
+
 namespace DishoutOLO.Service
 {
-    public class CategoryService : ICategoryService
+    public class MenuService : IMenuService
     {
-        private IRepository<Category> _categoryRepository;
         private readonly IMapper _mapper;
-
-        public CategoryService(IRepository<Category> categoryRepository,IMapper mapper)
+        private IRepository<Menu> _menuRepository;
+        public MenuService(IRepository<Menu> menuRepository,  IMapper mapper)
         {
-            _categoryRepository = categoryRepository;
+            _menuRepository = menuRepository;
             _mapper = mapper;
         }
 
-        public DishoutOLOResponseModel AddOrUpdateCategory(AddCategoryModel data)
+        public DishoutOLOResponseModel AddOrUpdateMenu(AddMenuModel data)
         {
             try
             {
-                var categoryresponse = _categoryRepository.GetAllAsQuerable().FirstOrDefault(x => x.IsActive == false && (x.CategoryName.ToLower() == data.CategoryName.ToLower()));
+                var categoryresponse = _menuRepository.GetAllAsQuerable().FirstOrDefault(x => x.IsActive == false && (x.MenuName.ToLower() == data.MenuName.ToLower()));
+
                 var response = new DishoutOLOResponseModel();
 
                 if (categoryresponse != null)
@@ -30,26 +32,42 @@ namespace DishoutOLO.Service
                     response.IsSuccess = false;
                     response.Status = 400;
                     response.Errors = new List<ErrorDet>();
-                    if (categoryresponse.CategoryName.ToLower() == data.CategoryName.ToLower())
+                    if (categoryresponse.MenuName.ToLower() == data.MenuName.ToLower())
                     {
-                        response.Errors.Add(new ErrorDet() { ErrorField = "CategoryName", ErrorDescription = "Category already exist" });
+                        response.Errors.Add(new ErrorDet() { ErrorField = "MenuName", ErrorDescription = "Menu already exist" });
                     }
 
-
                 }
-
                 if (data.Id == 0)
                 {
-                    Category tblCategory = _mapper.Map<AddCategoryModel, Category>(data);
-                    tblCategory.CreationDate = DateTime.Now;
-                    tblCategory.IsActive = true;
-                    _categoryRepository.Insert(tblCategory);
+                    
+                    Menu tblMenu = _mapper.Map<AddMenuModel,Menu>(data); 
+                   tblMenu.CreationDate=DateTime.Now;
+                    tblMenu.IsActive= true;
+
+                    if (data.File != null)
+                    {
+                        string fileName = $"{Guid.NewGuid().ToString()}{Path.GetExtension(data.File.FileName)}";
+                        string path = Path.GetFullPath("Content/Menu", fileName);
+                        Utility.SaveFile(data.File, path);
+                        tblMenu.Image = fileName;
+                    }
+                    _menuRepository.Insert(tblMenu);
                 }
                 else
                 {
-                    Category chk = _categoryRepository.GetByPredicate(x => x.Id == data.Id && x.IsActive);
-                    chk = _mapper.Map<AddCategoryModel, Category>(data);
-                    _categoryRepository.Update(chk);
+                    Menu chk = _menuRepository.GetByPredicate(x => x.Id == data.Id && x.IsActive);
+                    chk = _mapper.Map<AddMenuModel, Menu>(data);
+                    if (data.File != null)
+                    {
+                        string fileName = $"{Guid.NewGuid().ToString()}{Path.GetExtension(data.File.FileName)}";
+                        string path = Path.GetFullPath("Content/Menu", fileName);
+                        
+                        Utility.SaveFile(data.File, path);
+                        chk.Image = fileName;
+                    }
+                    _menuRepository.Update(chk);    
+
                 }
                 return new DishoutOLOResponseModel() { IsSuccess = true, Message = data.Id == 0 ? string.Format(Constants.AddedSuccessfully, "category") : string.Format(Constants.UpdatedSuccessfully, "category") };
             }
@@ -59,17 +77,17 @@ namespace DishoutOLO.Service
             }
         }
 
-        public DishoutOLOResponseModel DeleteCategory(int data)
+        public DishoutOLOResponseModel DeleteMenu(int data)
         {
             try
             {
-                Category chk = _categoryRepository.GetByPredicate(x => x.Id == data);
+                Menu chk = _menuRepository.GetByPredicate(x => x.Id == data);
 
                 if (chk != null)
                 {
                     chk.IsActive = false;
-                    _categoryRepository.Update(chk);
-                    _categoryRepository.SaveChanges();
+                    _menuRepository.Update(chk);
+                    _menuRepository.SaveChanges();
                 }
 
                 return new DishoutOLOResponseModel { IsSuccess = true, Message = string.Format(Constants.DeletedSuccessfully, "Category") };
@@ -81,14 +99,48 @@ namespace DishoutOLO.Service
         }
 
 
-        public DataTableFilterModel GetCategoryList(DataTableFilterModel filter)
+        public AddMenuModel GetAddMenu(int Id)
+        {
+
+            try
+            {
+
+
+                var menu = _menuRepository.GetListByPredicate(x => x.IsActive == true && x.Id == Id
+                                     )
+                                     .Select(y => new ListMenuModel()
+                                     { Id = y.Id, MenuName = y.MenuName,MenuPrice=y.MenuPrice,CategoryId=y.CategoryId,Image=y.Image, IsActive = y.IsActive }
+                                     ).FirstOrDefault();
+
+                if (menu != null)
+                {
+                    AddMenuModel obj = new AddMenuModel();
+                    obj.Id = menu.Id;
+                    obj.MenuName = menu.MenuName;
+                    obj.MenuPrice= menu.MenuPrice;
+                    obj.IsActive = menu.IsActive;
+                    obj.CategoryId = menu.CategoryId;
+                    obj.Image= menu.Image; 
+
+                    return obj;
+                }
+                return new AddMenuModel();
+            }
+            catch (Exception ex)
+            {
+                return new AddMenuModel();
+            }
+
+        }
+
+        public DataTableFilterModel GetMenuList(DataTableFilterModel filter)
         {
             try
             {
-                var data = _categoryRepository.GetListByPredicate(x => x.IsActive == true
+                var data = _menuRepository.GetListByPredicate(x => x.IsActive == true
                                      )
-                                     .Select(y => new ListCategoryModel()
-                                     { Id = y.Id, CategoryName = y.CategoryName, IsActive = y.IsActive }
+                                     .Select(y => new ListMenuModel()
+                                     { Id = y.Id, MenuName = y.MenuName,MenuPrice=y.MenuPrice,CategoryId=y.CategoryId,Image=y.Image, IsActive = y.IsActive }
                                      ).Distinct().OrderByDescending(x => x.Id).AsEnumerable();
 
                 var sortColumn = string.Empty;
@@ -109,7 +161,7 @@ namespace DishoutOLO.Service
                         {
                             if (sortColumn.Length > 0)
                             {
-                                sortColumn= sortColumn.First().ToString().ToUpper() + sortColumn.Substring(1);
+                                sortColumn = sortColumn.First().ToString().ToUpper() + sortColumn.Substring(1);
                                 if (sortColumnDirection == "asc")
                                 {
 
@@ -132,7 +184,7 @@ namespace DishoutOLO.Service
                 if (!string.IsNullOrWhiteSpace(filter.search.value))
                 {
                     var searchText = filter.search.value.ToLower();
-                    data = data.Where(p => p.CategoryName.ToLower().Contains(searchText));
+                    data = data.Where(p => p.MenuName.ToLower().Contains(searchText));
                 }
                 var filteredCount = data.Count();
                 filter.recordsTotal = totalCount;
@@ -150,51 +202,7 @@ namespace DishoutOLO.Service
 
         }
 
-        public DishoutOLOResponseModel GetAllCategories()
-        {
-            try
-            {
-                return new DishoutOLOResponseModel() { IsSuccess = true, Data = _categoryRepository.GetAll().Where(x=>x.IsActive).ToList() };
-                
-            }
-            catch (Exception)
-            {
-                return new DishoutOLOResponseModel() { IsSuccess = false, Data = null };
-
-            }
-        }
-
-        public AddCategoryModel GetAddCategory(int Id)
-        {
-
-            try
-            {
 
 
-                var category = _categoryRepository.GetListByPredicate(x => x.IsActive == true && x.Id == Id
-                                     )
-                                     .Select(y => new ListCategoryModel()
-                                     { Id = y.Id, CategoryName = y.CategoryName, IsActive = y.IsActive }
-                                     ).FirstOrDefault();
-
-                if (category != null)
-                {
-                    AddCategoryModel obj = new AddCategoryModel();
-                    obj.Id = category.Id;
-                    obj.CategoryName = category.CategoryName;
-                    return obj;
-                }
-                return new AddCategoryModel();
-            }
-            catch (Exception ex)
-            {
-                return new AddCategoryModel();
-            }
-
-        }
     }
-
-
 }
-
-
