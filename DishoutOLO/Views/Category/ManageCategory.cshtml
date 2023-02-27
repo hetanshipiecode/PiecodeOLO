@@ -1,0 +1,64 @@
+﻿@model DishoutOLO.ViewModel.AddCategoryModel
+@{
+    ViewData["Title"] = "Manage Category";
+}
+
+<div class="row">
+
+    <div class="col-xl-8 order-xl-3 ">
+        <div class="card">
+            <form id="myForm" action="javascript:;">
+
+                <div class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col-12">
+                            <h3 class="mb-0">Manage Category</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body">
+
+
+                    <div class="pl-lg-4">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.CategoryName,new {@class="form-control-label"})
+                                    @Html.EditorFor(model => model.CategoryName, new { htmlAttributes = new { @class = "form-control required", @Placeholder = "Category Name" } })
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="card-footer">
+                    <div class="row align-items-center">
+                        <div class="col-12 text-center">
+                            <button type="submit" id="btn-Add" class="btn btn-md btn-primary">
+                                Save
+                            </button>
+                            <a href="/Category/Index" class="btn btn-default">Cancel</a>
+                            <label id="lblError" class="inline"></label>
+
+                           
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>  
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+
+@section Scripts{
+    <script src="~/Assets/Managecategory.js" asp-append-version="true"></script>
+}
