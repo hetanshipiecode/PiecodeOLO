@@ -13,8 +13,6 @@ namespace DishoutOLO.Repo
         public Repository(FoodOrderingContext  context)
         {
             this.context = context;
-            //entities = context.Set<T>();
-
         }
 
 
