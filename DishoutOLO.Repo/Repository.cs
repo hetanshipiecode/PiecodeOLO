@@ -9,8 +9,6 @@ namespace DishoutOLO.Repo
     {
         private readonly FoodOrderingContext context;
         private DbSet<T> entities;
-        string errorMessage = string.Empty;
-
 
         public Repository(FoodOrderingContext  context)
         {
