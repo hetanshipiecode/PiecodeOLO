@@ -18,7 +18,7 @@ builder.Services.AddScoped<IMenuRepository, MenuRepository>();
 builder.Services.AddAutoMapper(typeof(DishoutOLO.MapperConfiguration));
 
 //var connectionString = builder.Configuration.GetConnectionString("ConnectionStrings:ConnectDB");
-builder.Services.AddDbContext<DishoutOLOContext>(x => x.UseSqlServer(builder.Configuration["ConnectionStrings:ConnectDb"]));
+builder.Services.AddDbContext<DishoutOLOContext>(x => x.UseSqlServer(builder.Configuration["ConnectionStrings:ConnectDB"]));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

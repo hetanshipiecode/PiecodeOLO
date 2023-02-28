@@ -58,13 +58,18 @@ function loadAllMenu() {
                 "data": "menuName"
             },
             {
-                "data": "categoryId"
+                "data": "categoryName"
             },
             {
                 "data": "menuPrice"
             },
             {
-                "data": "image"
+                "data": function (full) {
+                    debugger
+                    return "<img src=" + full.image.split('~')[1] +">";
+                }   
+                    
+              
             },
 
             {

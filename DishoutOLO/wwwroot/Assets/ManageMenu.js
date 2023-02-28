@@ -1,7 +1,8 @@
 ﻿$(document).ready(function () {
     $("#lblError").removeClass("success").removeClass("error").text('');
     debugger
-    $("#btn-Add").on("click", function () {
+    $("#btn-submit").on("click", function () {
+     
         $("#lblError").removeClass("success").removeClass("error").text('');
         var retval = true;
         $("#myForm .required").each(function () {
@@ -13,7 +14,7 @@
                 $(this).removeClass("error");
             }
         });
-
+      
         if (retval) {
             debugger
             var data = {
@@ -45,6 +46,7 @@
                 type: 'POST', // For jQuery < 1.9
                 success: function (data) {
                     if (!data.isSuccess) {
+                        console.log(data);
                         //StopProcess();
                         $("#lblError").addClass("error").text(data.message.toString()).show();
                     }

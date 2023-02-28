@@ -14,12 +14,12 @@ namespace DishoutOLO
         }
         private void CreateMaps()
         {
-            CreateMap<Category,AddCategoryModel>();
+            CreateMap<Category,AddCategoryModel>().ReverseMap();
                
 
 
             CreateMap<Menu, AddMenuModel>()
-             .ForMember(entity => entity.File, options => options.Ignore());
+             .ForMember(entity => entity.File, options => options.Ignore()).ReverseMap();
         }
 
     }

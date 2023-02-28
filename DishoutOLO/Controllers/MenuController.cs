@@ -1,8 +1,10 @@
-﻿using DishoutOLO.Repo;
+﻿using DishoutOLO.Data;
+using DishoutOLO.Repo;
 using DishoutOLO.Service;
 using DishoutOLO.Service.Interface;
 using DishoutOLO.ViewModel;
 using DishoutOLO.ViewModel.Helper;
+using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -37,6 +39,8 @@ namespace DishoutOLO.Controllers
 
         public JsonResult GetAllMenu(DataTableFilterModel filter)
         {
+            
+
             var list = _menuService.GetMenuList(filter);
             return Json(list);
         }
@@ -46,12 +50,31 @@ namespace DishoutOLO.Controllers
         }
 
 
-        public JsonResult AddOrUpdateMenu(AddMenuModel menuVM)
+        public JsonResult AddOrUpdateMenu(AddMenuModel menuVM,IFormFile file)
         {
             AddMenuModel menuModel = new AddMenuModel();
-         
 
-            return Json(_menuService.AddOrUpdateMenu(menuVM));
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Content/Menu");
+
+            //create folder if not exist
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+
+            //get file extension
+            FileInfo fileInfo = new FileInfo(file.FileName);
+            string fileName = file.FileName + fileInfo.Extension;
+
+            string fileNameWithPath = Path.Combine(path, fileName);
+
+            using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+            {
+                file.CopyTo(stream);
+            }
+
+            menuVM.Image = "~/Content/Menu" + "/" + fileName;
+            var images = Directory.GetDirectories("Path")
+                             .Select(fn => "Path" + Path.GetFileName(fn));
+           return Json(_menuService.AddOrUpdateMenu(menuVM));
         }
         public IActionResult DeleteMenu(int id)
         {

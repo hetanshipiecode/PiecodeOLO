@@ -13,9 +13,12 @@ namespace DishoutOLO.Service
     {
         private readonly IMapper _mapper;
         private IRepository<Menu> _menuRepository;
-        public MenuService(IRepository<Menu> menuRepository,  IMapper mapper)
+        private IRepository<Category> _categoryRepository;
+
+        public MenuService(IRepository<Menu> menuRepository, IRepository<Category> categoryRepository, IMapper mapper)
         {
             _menuRepository = menuRepository;
+            _categoryRepository = categoryRepository;
             _mapper = mapper;
         }
 
@@ -24,6 +27,10 @@ namespace DishoutOLO.Service
             try
             {
                 var categoryresponse = _menuRepository.GetAllAsQuerable().FirstOrDefault(x => x.IsActive == false && (x.MenuName.ToLower() == data.MenuName.ToLower()));
+
+
+               
+
 
                 var response = new DishoutOLOResponseModel();
 
@@ -45,27 +52,14 @@ namespace DishoutOLO.Service
                    tblMenu.CreationDate=DateTime.Now;
                     tblMenu.IsActive= true;
 
-                    if (data.File != null)
-                    {
-                        string fileName = $"{Guid.NewGuid().ToString()}{Path.GetExtension(data.File.FileName)}";
-                        string path = Path.GetFullPath("Content/Menu", fileName);
-                        Utility.SaveFile(data.File, path);
-                        tblMenu.Image = fileName;
-                    }
+                    
                     _menuRepository.Insert(tblMenu);
                 }
                 else
                 {
                     Menu chk = _menuRepository.GetByPredicate(x => x.Id == data.Id && x.IsActive);
                     chk = _mapper.Map<AddMenuModel, Menu>(data);
-                    if (data.File != null)
-                    {
-                        string fileName = $"{Guid.NewGuid().ToString()}{Path.GetExtension(data.File.FileName)}";
-                        string path = Path.GetFullPath("Content/Menu", fileName);
-                        
-                        Utility.SaveFile(data.File, path);
-                        chk.Image = fileName;
-                    }
+                   
                     _menuRepository.Update(chk);    
 
                 }
@@ -109,8 +103,9 @@ namespace DishoutOLO.Service
                 var menu = _menuRepository.GetListByPredicate(x => x.IsActive == true && x.Id == Id
                                      )
                                      .Select(y => new ListMenuModel()
-                                     { Id = y.Id, MenuName = y.MenuName,MenuPrice=y.MenuPrice,CategoryId=y.CategoryId,Image=y.Image, IsActive = y.IsActive }
+                                     { Id = y.Id, MenuName = y.MenuName,MenuPrice=y.MenuPrice,CategoryId=y.CategoryId,Image=y.Image, IsActive = y.IsActive,CategoryName=y.CategoryName }
                                      ).FirstOrDefault();
+
 
                 if (menu != null)
                 {
@@ -120,6 +115,7 @@ namespace DishoutOLO.Service
                     obj.MenuPrice= menu.MenuPrice;
                     obj.IsActive = menu.IsActive;
                     obj.CategoryId = menu.CategoryId;
+                    
                     obj.Image= menu.Image; 
 
                     return obj;
@@ -137,11 +133,26 @@ namespace DishoutOLO.Service
         {
             try
             {
-                var data = _menuRepository.GetListByPredicate(x => x.IsActive == true
-                                     )
-                                     .Select(y => new ListMenuModel()
-                                     { Id = y.Id, MenuName = y.MenuName,MenuPrice=y.MenuPrice,CategoryId=y.CategoryId,Image=y.Image, IsActive = y.IsActive }
-                                     ).Distinct().OrderByDescending(x => x.Id).AsEnumerable();
+                //var data = _menuRepository.GetListByPredicate(x => x.IsActive == true
+                //                     )
+                //                     .Select(y => new ListMenuModel()
+                //                     { Id = y.Id, MenuName = y.MenuName, MenuPrice = y.MenuPrice, CategoryId = y.CategoryId, Image = y.Image, IsActive = y.IsActive }
+                //                     ).Distinct().OrderByDescending(x => x.Id).AsEnumerable();
+
+                var data = (from ct in _categoryRepository.GetAll()
+                            join mn in _menuRepository.GetAll() on
+                            ct.Id equals mn.CategoryId
+                            where mn.IsActive == true
+                            select new ListMenuModel
+
+                            {
+                                CategoryName = ct.CategoryName,
+                                MenuName = mn.MenuName,
+                                MenuPrice = mn.MenuPrice,
+                                Image = mn.Image,
+                                Id = mn.Id,
+                            }).AsEnumerable();
+
 
                 var sortColumn = string.Empty;
                 var sortColumnDirection = string.Empty;
@@ -190,6 +201,10 @@ namespace DishoutOLO.Service
                 filter.recordsTotal = totalCount;
                 filter.recordsFiltered = filteredCount;
                 data = data.ToList();
+
+
+               
+
 
                 filter.data = data.Skip(filter.start).Take(filter.length).ToList();
 

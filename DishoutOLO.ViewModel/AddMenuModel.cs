@@ -18,6 +18,7 @@ namespace DishoutOLO.ViewModel
 
         [DisplayName("Menu Price")]
         public int MenuPrice { get; set; }
+        public string CategoryName { get; set; }
 
         public int CategoryId { get; set; }
         [DisplayName("CategorY")]
@@ -33,12 +34,15 @@ namespace DishoutOLO.ViewModel
         public int Id { get; set; }
 
         public string MenuName { get; set; }
+        
+        public string CategoryName { get; set; }
+
         public IFormFile File { get; set; }
 
         public int MenuPrice { get; set; }
 
         public int CategoryId { get; set; }
-
+        [DisplayName("CategorY")]
         public string Image { get; set; }
 
         public bool IsActive { get; set; }
