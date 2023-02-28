@@ -103,7 +103,8 @@ namespace DishoutOLO.Service
                 var menu = _menuRepository.GetListByPredicate(x => x.IsActive == true && x.Id == Id
                                      )
                                      .Select(y => new ListMenuModel()
-                                     { Id = y.Id, MenuName = y.MenuName,MenuPrice=y.MenuPrice,CategoryId=y.CategoryId,Image=y.Image, IsActive = y.IsActive,CategoryName=y.CategoryName }
+                                     { Id = y.Id, MenuName = y.MenuName,MenuPrice=y.MenuPrice,CategoryId=y.CategoryId,Image=y.Image, IsActive = y.IsActive,CategoryName=y.CategoryName
+                                     }
                                      ).FirstOrDefault();
 
 
