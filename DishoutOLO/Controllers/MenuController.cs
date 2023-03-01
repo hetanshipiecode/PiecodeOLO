@@ -1,27 +1,35 @@
-﻿using DishoutOLO.Data;
+﻿using DishoutOLO.Helpers;
 using DishoutOLO.Repo;
-using DishoutOLO.Service;
 using DishoutOLO.Service.Interface;
 using DishoutOLO.ViewModel;
 using DishoutOLO.ViewModel.Helper;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
+using System;
 using System.Collections;
-using static DishoutOLO.ViewModel.AddMenuModel;
+using System.IO;
+using System.Runtime.CompilerServices;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace DishoutOLO.Controllers
 {
+    
     public class MenuController : Controller
     {
+        
+
         private readonly IMenuService  _menuService;
         private readonly ICategoryService _categoryService;
+        private readonly IWebHostEnvironment _hostingEnvironment;
 
-        public MenuController(IMenuService menuService, ICategoryService categoryService)
+        public MenuController(IMenuService menuService, ICategoryService categoryService, IWebHostEnvironment hostingEnvironment)
         {
             _categoryService = categoryService;
             _menuService = menuService;
+            _hostingEnvironment = hostingEnvironment;
         }
         public IActionResult Index()
         {
@@ -44,41 +52,56 @@ namespace DishoutOLO.Controllers
             var list = _menuService.GetMenuList(filter);
             return Json(list);
         }
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int id,IFormFile file)
         {
+            bool deleteSuccess = false;
+            var photoName = "";
+
+             
+            if(file != null)
+            {
+                var imagePath = Path.Combine(_hostingEnvironment.WebRootPath, "image", file.FileName);
+                Utility.DeleteFile(file, imagePath);
+                photoName = file.FileName;
+                deleteSuccess= true;
+            }
+            ViewBag.CategoryList = new SelectList((IList)_categoryService.GetAllCategories().Data, "Id", "CategoryName");
             return View("ManageMenu", _menuService.GetAddMenu(id));
         }
+        
+        //public ActionResult Edit( AddMenuModel addMenu, IFormFile file)
+        //{
+        //     AddMenuModel menuModel = new AddMenuModel();
 
+        //    if (file != null)
+        //    {
+        //        string fileName = $"{Guid.NewGuid().ToString()}{Path.GetExtension(file.FileName)}";
+        //        string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Content/Menu", fileName);
+        //        Utility.DeleteFile(file, path);
+        //        addMenu.Image = fileName;
+        //    }
 
+        //    return View("ManageMenu");
+        //}
         public JsonResult AddOrUpdateMenu(AddMenuModel menuVM,IFormFile file)
         {
             AddMenuModel menuModel = new AddMenuModel();
 
-            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Content/Menu");
-
-            //create folder if not exist
-            if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);
-
-            //get file extension
-            FileInfo fileInfo = new FileInfo(file.FileName);
-            string fileName = file.FileName + fileInfo.Extension;
-
-            string fileNameWithPath = Path.Combine(path, fileName);
-
-            using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+            if (file != null)
             {
-                file.CopyTo(stream);
+                string fileName = $"{Guid.NewGuid().ToString()}{Path.GetExtension(file.FileName)}";
+                string path =  Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Content/Menu",fileName);
+                Utility.SaveFile(file, path);
+           
+                menuVM.Image = fileName;
             }
-
-            menuVM.Image = "~/Content/Menu" + "/" + fileName;
-            var images = Directory.GetDirectories("Path")
-                             .Select(fn => "Path" + Path.GetFileName(fn));
-           return Json(_menuService.AddOrUpdateMenu(menuVM));
+            return Json(_menuService.AddOrUpdateMenu(menuVM));
         }
         public IActionResult DeleteMenu(int id)
         {
             var list = _menuService.DeleteMenu(id);
+
+           
             return Json(list);
         }
 

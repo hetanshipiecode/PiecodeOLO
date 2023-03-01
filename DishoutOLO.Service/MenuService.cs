@@ -26,20 +26,16 @@ namespace DishoutOLO.Service
         {
             try
             {
-                var categoryresponse = _menuRepository.GetAllAsQuerable().FirstOrDefault(x => x.IsActive == false && (x.MenuName.ToLower() == data.MenuName.ToLower()));
-
-
-               
-
+                var Menuresponse = _menuRepository.GetAllAsQuerable().WhereIf(data.Id > 0, x => x.Id != data.Id).FirstOrDefault(x => x.IsActive && (x.MenuName.ToLower() == data.MenuName.ToLower()));
 
                 var response = new DishoutOLOResponseModel();
 
-                if (categoryresponse != null)
+                if (Menuresponse != null)
                 {
                     response.IsSuccess = false;
                     response.Status = 400;
                     response.Errors = new List<ErrorDet>();
-                    if (categoryresponse.MenuName.ToLower() == data.MenuName.ToLower())
+                    if (Menuresponse.MenuName.ToLower() == data.MenuName.ToLower())
                     {
                         response.Errors.Add(new ErrorDet() { ErrorField = "MenuName", ErrorDescription = "Menu already exist" });
                     }
@@ -47,20 +43,18 @@ namespace DishoutOLO.Service
                 }
                 if (data.Id == 0)
                 {
-                    
-                    Menu tblMenu = _mapper.Map<AddMenuModel,Menu>(data); 
-                   tblMenu.CreationDate=DateTime.Now;
-                    tblMenu.IsActive= true;
-
-                    
+                    Menu tblMenu = _mapper.Map<AddMenuModel, Menu>(data);
+                    tblMenu.CreationDate = DateTime.Now;
+                    tblMenu.IsActive = true;
                     _menuRepository.Insert(tblMenu);
                 }
                 else
                 {
                     Menu chk = _menuRepository.GetByPredicate(x => x.Id == data.Id && x.IsActive);
+                    var p = chk.CreationDate;
                     chk = _mapper.Map<AddMenuModel, Menu>(data);
-                   
-                    _menuRepository.Update(chk);    
+                    chk.CreationDate = p;
+                    _menuRepository.Update(chk);
 
                 }
                 return new DishoutOLOResponseModel() { IsSuccess = true, Message = data.Id == 0 ? string.Format(Constants.AddedSuccessfully, "category") : string.Format(Constants.UpdatedSuccessfully, "category") };
@@ -98,38 +92,41 @@ namespace DishoutOLO.Service
 
             try
             {
-
-
                 var menu = _menuRepository.GetListByPredicate(x => x.IsActive == true && x.Id == Id
                                      )
                                      .Select(y => new ListMenuModel()
-                                     { Id = y.Id, MenuName = y.MenuName,MenuPrice=y.MenuPrice,CategoryId=y.CategoryId,Image=y.Image, IsActive = y.IsActive,CategoryName=y.CategoryName
+                                     {
+                                         Id = y.Id,
+                                         MenuName = y.MenuName,
+                                         MenuPrice = y.MenuPrice,
+                                         CategoryId = y.CategoryId,
+                                         Image = y.Image,
+                                         IsActive = y.IsActive,
+                                         CategoryName = y.CategoryName
                                      }
                                      ).FirstOrDefault();
 
 
-                if (menu != null)
-                {
-                    AddMenuModel obj = new AddMenuModel();
-                    obj.Id = menu.Id;
-                    obj.MenuName = menu.MenuName;
-                    obj.MenuPrice= menu.MenuPrice;
-                    obj.IsActive = menu.IsActive;
-                    obj.CategoryId = menu.CategoryId;
-                    
-                    obj.Image= menu.Image; 
+                                         if (menu != null)
+                                         {
+                                            AddMenuModel obj = new AddMenuModel();
+                                            obj.Id = menu.Id;
+                                            obj.MenuName = menu.MenuName;
+                                            obj.MenuPrice = menu.MenuPrice;
+                                            obj.IsActive = menu.IsActive;
+                                            obj.CategoryId = menu.CategoryId;
+                                            obj.Image = menu.Image;
 
-                    return obj;
-                }
-                return new AddMenuModel();
-            }
-            catch (Exception ex)
-            {
-                return new AddMenuModel();
-            }
+                                          return obj;
+                                         }
+                                            return new AddMenuModel();
+                                            }
+                                                catch (Exception ex)
+                                            {
+                                                return new AddMenuModel();
+                                            }
 
         }
-
         public DataTableFilterModel GetMenuList(DataTableFilterModel filter)
         {
             try
@@ -204,7 +201,7 @@ namespace DishoutOLO.Service
                 data = data.ToList();
 
 
-               
+
 
 
                 filter.data = data.Skip(filter.start).Take(filter.length).ToList();

@@ -24,7 +24,6 @@
                 CategoryId: $("#CategoryId").val(),
                 MenuPrice: $("#MenuPrice").val(),
                 Image: $("#Image").val(),
-    
                 IsActive: $("#IsActive").val() == "true" ? true : false
             }
 

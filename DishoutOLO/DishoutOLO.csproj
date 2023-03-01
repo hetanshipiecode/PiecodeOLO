@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Content\**" />
+    <Content Remove="Content\**" />
+    <EmbeddedResource Remove="Content\**" />
+    <None Remove="Content\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\Assets\Category.js" />
     <None Include="wwwroot\Assets\Managecategory.js" />
     <None Include="wwwroot\js\site.js" />
@@ -63,10 +70,6 @@
     <ProjectReference Include="..\DishoutOLO.Repo\DishoutOLO.Repo.csproj" />
     <ProjectReference Include="..\DishoutOLO.Service\DishoutOLO.Service.csproj" />
     <ProjectReference Include="..\DishoutOLO.ViewModel\DishoutOLO.ViewModel.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\Content\Menu\" />
   </ItemGroup>
 
 </Project>

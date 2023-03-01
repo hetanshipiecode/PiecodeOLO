@@ -1,8 +1,4 @@
-﻿
-
-using Microsoft.AspNetCore.Http;
-
-namespace DishoutOLO.ViewModel.Helper
+﻿namespace DishoutOLO.Helpers
 {
     public class Utility
     {
@@ -22,6 +18,23 @@ namespace DishoutOLO.ViewModel.Helper
             {
                 file.CopyTo(fileStream);
             }
+        }
+
+        public static void DeleteFile(IFormFile file,string path)
+        {
+            string folder= Path.GetDirectoryName(path); 
+
+            if(!File.Exists(folder))
+              Directory.Delete(folder);
+
+           using (Stream fileStream = new FileStream(path, FileMode.Create))
+            {
+                file.CopyTo(fileStream);
+            }
+
+
+
+
         }
     }
 }

@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DishoutOLO.Repo", "DishoutO
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DishoutOLO.Service", "DishoutOLO.Service\DishoutOLO.Service.csproj", "{10E20C0D-BDC4-425B-A981-BB55B6F865EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DishoutOLO.ViewModel", "DishoutOLO.ViewModel\DishoutOLO.ViewModel.csproj", "{F3EE5227-1732-4364-A964-F6C43B216E39}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DishoutOLO.ViewModel", "DishoutOLO.ViewModel\DishoutOLO.ViewModel.csproj", "{F3EE5227-1732-4364-A964-F6C43B216E39}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

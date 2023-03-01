@@ -66,7 +66,8 @@ function loadAllMenu() {
             {
                 "data": function (full) {
                     debugger
-                    return "<img src=" + full.image.split('~')[1] +">";
+                    var imgPath = '/Content/Menu/' + full.image;
+                    return "<img src=" + imgPath +">";
                 }   
                     
               

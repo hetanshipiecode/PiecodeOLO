@@ -10,6 +10,8 @@
         <div class="card">
             <form id="myForm" action="javascript:;">    
                 @Html.HiddenFor(mode=>mode.Id)
+                @Html.HiddenFor(mode=>mode.IsActive)
+
                 <div class="card-header">
                     <div class="row align-items-center">
                         <div class="col-12">
@@ -31,8 +33,8 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.CategoryName,new {@class="form-control-label"})
-                                    @Html.DropDownListFor(f=>f.CategoryName, ViewBag.CategoryList as SelectList, "---SELECT---", new { @class = "form-control required" })
+                                    @Html.LabelFor(model => model.CategoryId,new {@class="form-control-label"})
+                                    @Html.DropDownListFor(f=>f.CategoryId, ViewBag.CategoryList as SelectList, "---SELECT---", new { @class = "form-control required" })
                                         
                                     
                                 </div>
