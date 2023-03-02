@@ -1,0 +1,42 @@
+﻿
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            
+
+        <div class="col-lg-12  text-right">
+            <a href="/Item/Create" class="btn btn-md btn-warning">
+            Add Item
+           </a>
+
+        </div>
+
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="menuTbl" class="table table-bordered table-hover">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col" class="sort" data-sort="name">CategoryId </th>
+                                <th scope="col" class="sort" data-sort="name">Item Name</th>
+                                <th scope="col" class="sort" data-sort="name">Item Image</th>
+                                <th scope="col" class="sort" data-sort="name">IsCombo</th>
+
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+    </div>
+</div>
+</div>
+<partial name="_CommonResponseModel" />
+
+@section Scripts {
+
+    <script src="~/assets/manageitem.js" asp-append-version="true"></script>
+}

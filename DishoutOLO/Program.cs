@@ -16,6 +16,9 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IMenuService, MenuService>();
 builder.Services.AddScoped<IMenuRepository, MenuRepository>();
 builder.Services.AddAutoMapper(typeof(DishoutOLO.MapperConfiguration));
+builder.Services.AddScoped<IitemService, ItemService>();
+builder.Services.AddScoped<IItemRepositrory, ItemRepository>();
+
 
 //var connectionString = builder.Configuration.GetConnectionString("ConnectionStrings:ConnectDB");
 builder.Services.AddDbContext<DishoutOLOContext>(x => x.UseSqlServer(builder.Configuration["ConnectionStrings:ConnectDB"]));
