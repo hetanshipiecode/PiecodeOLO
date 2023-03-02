@@ -48,12 +48,14 @@ namespace DishoutOLO.Service
                 else
                 {
                     Category chk = _categoryRepository.GetByPredicate(x => x.Id == data.Id && x.IsActive);
+                    DateTime createdDt = chk.CreationDate; bool isActive = chk.IsActive;
                     chk = _mapper.Map<AddCategoryModel, Category>(data);
+                    chk.ModifiedDate = DateTime.Now; chk.CreationDate = createdDt;chk.IsActive = isActive;
                     _categoryRepository.Update(chk);
                 }
                 return new DishoutOLOResponseModel() { IsSuccess = true, Message = data.Id == 0 ? string.Format(Constants.AddedSuccessfully, "category") : string.Format(Constants.UpdatedSuccessfully, "category") };
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return new DishoutOLOResponseModel() { IsSuccess = false, Message = Constants.GetDetailError };
             }

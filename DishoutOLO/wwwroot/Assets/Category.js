@@ -3,7 +3,6 @@
 var table;
 $("document").ready(function () {
     loadAllCategory();
-    debugger
     // Display a success toast, with a title
     //Toast.fire({
     //    icon: 'success',

@@ -1,11 +1,11 @@
-﻿using DishoutOLO.Repo.Interface;
+﻿using DishoutOLO.Data;
+using DishoutOLO.Repo.Interface;
 using Microsoft.EntityFrameworkCore;
 using System;
 
-
 namespace DishoutOLO.Repo
 {
-    public class Repository<T> : IRepository<T> where T : class
+    public class Repository<T> : IRepository<T> where T  : BaseEntity
     {
         private readonly DishoutOLOContext context;
         private DbSet<T> entities;
@@ -40,11 +40,19 @@ namespace DishoutOLO.Repo
 
         public void Update(T entity)
         {
-            if (entity == null)
+            var local = context.Set<T>()
+               .Local
+               .FirstOrDefault(entry => entry.Id.Equals(entity.Id));
+
+            if (local != null)
             {
-                throw new ArgumentNullException("entity");
+                context.Entry(local).State = EntityState.Detached;
             }
-            context.SaveChanges();
+
+            context.Set<T>().Attach(entity);
+           context.Entry(entity).State = EntityState.Modified;
+           context.SaveChanges();
+
         }
         public void Delete(T entity)
         {

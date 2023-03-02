@@ -54,45 +54,19 @@ namespace DishoutOLO.Controllers
         }
         public ActionResult Edit(int id,IFormFile file)
         {
-            bool deleteSuccess = false;
-            var photoName = "";
-
-             
-            if(file != null)
-            {
-                var imagePath = Path.Combine(_hostingEnvironment.WebRootPath, "image", file.FileName);
-                Utility.DeleteFile(file, imagePath);
-                photoName = file.FileName;
-                deleteSuccess= true;
-            }
             ViewBag.CategoryList = new SelectList((IList)_categoryService.GetAllCategories().Data, "Id", "CategoryName");
             return View("ManageMenu", _menuService.GetAddMenu(id));
         }
         
-        //public ActionResult Edit( AddMenuModel addMenu, IFormFile file)
-        //{
-        //     AddMenuModel menuModel = new AddMenuModel();
-
-        //    if (file != null)
-        //    {
-        //        string fileName = $"{Guid.NewGuid().ToString()}{Path.GetExtension(file.FileName)}";
-        //        string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Content/Menu", fileName);
-        //        Utility.DeleteFile(file, path);
-        //        addMenu.Image = fileName;
-        //    }
-
-        //    return View("ManageMenu");
-        //}
         public JsonResult AddOrUpdateMenu(AddMenuModel menuVM,IFormFile file)
         {
-            AddMenuModel menuModel = new AddMenuModel();
-
             if (file != null)
             {
                 string fileName = $"{Guid.NewGuid().ToString()}{Path.GetExtension(file.FileName)}";
                 string path =  Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Content/Menu",fileName);
                 Utility.SaveFile(file, path);
-           
+                Utility.DeleteFile(path);
+
                 menuVM.Image = fileName;
             }
             return Json(_menuService.AddOrUpdateMenu(menuVM));
@@ -100,8 +74,14 @@ namespace DishoutOLO.Controllers
         public IActionResult DeleteMenu(int id)
         {
             var list = _menuService.DeleteMenu(id);
-
-           
+            if(list!=null && list.Data != null)
+            {
+                var path = (string)list.Data;
+                if (!string.IsNullOrEmpty(path))
+                {
+                    Utility.DeleteFile(path);
+                }
+            }
             return Json(list);
         }
 

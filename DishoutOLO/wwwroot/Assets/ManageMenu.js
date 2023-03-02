@@ -1,6 +1,5 @@
 ﻿$(document).ready(function () {
     $("#lblError").removeClass("success").removeClass("error").text('');
-    debugger
     $("#btn-submit").on("click", function () {
      
         $("#lblError").removeClass("success").removeClass("error").text('');
@@ -16,9 +15,7 @@
         });
       
         if (retval) {
-            debugger
             var data = {
-               
                 id: $("#Id").val(),
                 MenuName: $("#MenuName").val(),
                 CategoryId: $("#CategoryId").val(),

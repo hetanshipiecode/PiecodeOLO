@@ -3,7 +3,6 @@
 var table;
 $("document").ready(function () {
     loadAllMenu();
-    debugger
     // Display a success toast, with a title
     //Toast.fire({
     //    icon: 'success',
@@ -38,7 +37,6 @@ $('#delete-btn').click(function () {
 
 
 function loadAllMenu() {
-    debugger
     var url = "/Menu/GetAllMenu"
 
     table = $("#menuTbl").DataTable({
@@ -65,9 +63,8 @@ function loadAllMenu() {
             },
             {
                 "data": function (full) {
-                    debugger
                     var imgPath = '/Content/Menu/' + full.image;
-                    return "<img src=" + imgPath +">";
+                    return "<img src=" + imgPath +" >";
                 }   
                     
               

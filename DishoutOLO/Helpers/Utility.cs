@@ -20,21 +20,10 @@
             }
         }
 
-        public static void DeleteFile(IFormFile file,string path)
+        public static void DeleteFile(string path)
         {
-            string folder= Path.GetDirectoryName(path); 
-
-            if(!File.Exists(folder))
-              Directory.Delete(folder);
-
-           using (Stream fileStream = new FileStream(path, FileMode.Create))
-            {
-                file.CopyTo(fileStream);
-            }
-
-
-
-
+            if(File.Exists(path))
+                File.Delete(path);
         }
     }
 }
