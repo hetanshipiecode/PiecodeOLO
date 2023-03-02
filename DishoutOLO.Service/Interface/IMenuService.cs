@@ -1,13 +1,11 @@
 ﻿
 using DishoutOLO.ViewModel;
 using DishoutOLO.ViewModel.Helper;
-using static DishoutOLO.ViewModel.AddMenuModel;
-
 namespace DishoutOLO.Service.Interface
 {
     public interface IMenuService
     {
-        public DishoutOLOResponseModel AddOrUpdateMenu(AddMenuModel data);
+        public DishoutOLOResponseModel AddOrUpdateMenu(AddMenuModel data,string imgPath="");
 
         public DishoutOLOResponseModel DeleteMenu(int data);
         public AddMenuModel GetAddMenu(int Id);

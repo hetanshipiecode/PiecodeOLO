@@ -4,9 +4,6 @@ using DishoutOLO.Service.Interface;
 using DishoutOLO.ViewModel;
 using DishoutOLO.ViewModel.Helper;
 using AutoMapper;
-
-using static DishoutOLO.ViewModel.DishoutOLOResponseModel;
-
 namespace DishoutOLO.Service
 {
     public class MenuService : IMenuService
@@ -22,7 +19,7 @@ namespace DishoutOLO.Service
             _mapper = mapper;
         }
 
-        public DishoutOLOResponseModel AddOrUpdateMenu(AddMenuModel data)
+        public DishoutOLOResponseModel AddOrUpdateMenu(AddMenuModel data,string imgPath="")
         {
             try
             {
@@ -51,11 +48,12 @@ namespace DishoutOLO.Service
                 else
                 {
                     Menu chk = _menuRepository.GetByPredicate(x => x.Id == data.Id && x.IsActive);
-                    var p = chk.CreationDate;
+                    DateTime CreationDate = chk.CreationDate;
                     chk = _mapper.Map<AddMenuModel, Menu>(data);
-                    chk.CreationDate = p;
+                    chk.CreationDate = CreationDate;
+                    chk.ModifiedDate = DateTime.Now;
+                    chk.Image = imgPath;
                     _menuRepository.Update(chk);
-
                 }
                 return new DishoutOLOResponseModel() { IsSuccess = true, Message = data.Id == 0 ? string.Format(Constants.AddedSuccessfully, "category") : string.Format(Constants.UpdatedSuccessfully, "category") };
             }

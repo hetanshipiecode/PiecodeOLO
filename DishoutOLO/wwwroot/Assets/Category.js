@@ -3,11 +3,7 @@
 var table;
 $("document").ready(function () {
     loadAllCategory();
-    // Display a success toast, with a title
-    //Toast.fire({
-    //    icon: 'success',
-    //    title: 'Your Level is 3.'
-    //})
+    
 })
 $("#categoryTbl").on("click", "a#btn-delete", function () {
     var id = $(this).data('id');

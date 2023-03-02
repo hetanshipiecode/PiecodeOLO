@@ -22,17 +22,10 @@
 
         public static void DeleteFile(string path)
         {
-                       
-
-                if (File.Exists(path))
+            if (File.Exists(path))
             {
-                Directory.Delete(path);   
+                File.Delete(path);
             }
-
-           
-
-
-
         }
     }
 }

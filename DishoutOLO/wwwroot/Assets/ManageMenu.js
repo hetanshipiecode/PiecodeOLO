@@ -21,7 +21,7 @@
                 CategoryId: $("#CategoryId").val(),
                 MenuPrice: $("#MenuPrice").val(),
                 Image: $("#Image").val(),
-                IsActive: $("#IsActive").val() == "true" ? true : false
+                IsActive: $("#IsActive").val() == "True" ? true : false
             }
 
             var formData = new FormData();
