@@ -35,9 +35,7 @@ namespace DishoutOLO.Service
                         response.Errors.Add(new ErrorDet() { ErrorField = "CategoryName", ErrorDescription = "Category already exist" });
                     }
 
-
                 }
-
                 if (data.Id == 0)
                 {
                     Category tblCategory = _mapper.Map<AddCategoryModel, Category>(data);
@@ -168,11 +166,8 @@ namespace DishoutOLO.Service
 
         public AddCategoryModel GetAddCategory(int Id)
         {
-
             try
             {
-
-
                 var category = _categoryRepository.GetListByPredicate(x => x.IsActive == true && x.Id == Id
                                      )
                                      .Select(y => new ListCategoryModel()

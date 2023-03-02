@@ -52,21 +52,25 @@ namespace DishoutOLO.Controllers
             var list = _menuService.GetMenuList(filter);
             return Json(list);
         }
-        public ActionResult Edit(int id,IFormFile file)
-        {
+        public ActionResult Edit(int id)
+            {
+                       
+            
             ViewBag.CategoryList = new SelectList((IList)_categoryService.GetAllCategories().Data, "Id", "CategoryName");
             return View("ManageMenu", _menuService.GetAddMenu(id));
         }
         
+      
         public JsonResult AddOrUpdateMenu(AddMenuModel menuVM,IFormFile file)
         {
+            AddMenuModel menuModel = new AddMenuModel();
+
             if (file != null)
             {
                 string fileName = $"{Guid.NewGuid().ToString()}{Path.GetExtension(file.FileName)}";
                 string path =  Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Content/Menu",fileName);
                 Utility.SaveFile(file, path);
-                Utility.DeleteFile(path);
-
+           
                 menuVM.Image = fileName;
             }
             return Json(_menuService.AddOrUpdateMenu(menuVM));
@@ -74,14 +78,8 @@ namespace DishoutOLO.Controllers
         public IActionResult DeleteMenu(int id)
         {
             var list = _menuService.DeleteMenu(id);
-            if(list!=null && list.Data != null)
-            {
-                var path = (string)list.Data;
-                if (!string.IsNullOrEmpty(path))
-                {
-                    Utility.DeleteFile(path);
-                }
-            }
+
+           
             return Json(list);
         }
 

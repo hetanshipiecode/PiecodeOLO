@@ -65,7 +65,7 @@ $('#delete-btn').click(function () {
     var id = $('#deleteModal').data('id');
     $.ajax({
         type: "POST",
-        url: "/Categories/Delete",
+        url: "/Menu/DeleteMenu",
         data: { id: id },
         success: function (response) {
             if (response.status != "Fail") {

@@ -28,7 +28,7 @@ namespace DishoutOLO.Service
             {
                 var Menuresponse = _menuRepository.GetAllAsQuerable().WhereIf(data.Id > 0, x => x.Id != data.Id).FirstOrDefault(x => x.IsActive && (x.MenuName.ToLower() == data.MenuName.ToLower()));
 
-                var response = new DishoutOLOResponseModel();
+                    var response = new DishoutOLOResponseModel();
 
                 if (Menuresponse != null)
                 {
@@ -89,7 +89,6 @@ namespace DishoutOLO.Service
 
         public AddMenuModel GetAddMenu(int Id)
         {
-
             try
             {
                 var menu = _menuRepository.GetListByPredicate(x => x.IsActive == true && x.Id == Id
