@@ -12,10 +12,12 @@ namespace DishoutOLO.Controllers
     public class ItemController : Controller
     {
         private readonly IitemService _ItemService;
+        private readonly ICategoryService _categoryService;
 
-        public ItemController(IitemService itemService)
+        public ItemController(IitemService itemService, ICategoryService categoryService)
         {
             _ItemService = itemService;
+            _categoryService = categoryService;
         }
         public IActionResult Index()
         {
@@ -23,6 +25,7 @@ namespace DishoutOLO.Controllers
         }
         public IActionResult Create()
         {
+            ViewBag.CategoryList= new SelectList((IList)_categoryService.GetAllCategories().Data, "Id", "CategoryName");
             return View("ManageItem",new AddItemModel());
         }
 
@@ -33,15 +36,16 @@ namespace DishoutOLO.Controllers
         }
         public ActionResult Edit(int id)
         {
-            return View("ManageCategory", _ItemService.GetAddItem(id));
+            return View("ManageItem", _ItemService.GetAddItem(id));
         }
 
 
+       
         public JsonResult AddOrUpdateItem(AddItemModel itemVM,IFormFile file)
         {
             if (file != null)
             {
-                string fileName = $"{Guid.NewGuid().ToString()}{Path.GetExtension(file.FileName)}";
+                    string fileName = $"{Guid.NewGuid().ToString()}{Path.GetExtension(file.FileName)}";
                 string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Content/Item", fileName);
                 Utility.SaveFile(file, path);
                 if (itemVM.Id > 0)

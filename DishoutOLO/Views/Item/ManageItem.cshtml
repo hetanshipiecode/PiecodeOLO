@@ -1,11 +1,11 @@
-﻿
+﻿@model DishoutOLO.ViewModel.AddItemModel
 
 <div class="row">
 
     <div class="col-xl-8 order-xl-3 ">
         <div class="card">
             <form id="myForm" action="javascript:;">
-
+                @Html.HiddenFor(mode=>mode.Id)
 
                 <div class="card-header">
                     <div class="row align-items-center">
@@ -16,51 +16,215 @@
                 </div>
 
                 <div class="card-body">
-
-
                     <div class="pl-lg-4">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label>
-                                        Category Id
-                                    </label>
-                                    @Html.DropDownList("CategoryId",new List<SelectListItem>{
-                                    new SelectListItem{ Text= "Food" ,Value="Food"},
-                                    new SelectListItem {Text="Drink" ,Value="Drink"},
-                                    new SelectListItem {Text= "Beverages" ,Value="Beverages" }},new {@class="form-control"})
-                                </div>
-                            </div>
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>
                                         Item Name
                                     </label>
-                                    @Html.Editor("ItemName", new { htmlAttributes = new { @class = "form-control  required", @placeholder = "Item Name" } })
+                                    @Html.Editor("ItemName", new { htmlAttributes = new { @class = "form-control  ", @placeholder = "Item Name" } })
+                                </div>
+                             <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>
+                                        Veg/Non-Veg <span style="color:red;">*</span>
+                                    </label>
+                                    <span class="ml-3"> @Html.RadioButton("Veg","Veg")</span>
+                                      <label class="ml-1">
+                                       Veg
+                                    </label>
+
+                                    @Html.RadioButton("Veg","Non-Veg")
+                                    <label class="ml-1">
+                                        Non-Veg
+                                    </label>
                                 </div>
                             </div>
+                             <div class="form-group">
+                                    <label>
+                                    IsCombo <span style="color:red;">*</span>
+                                    </label>
+                                <span class="ml-3"> @Html.CheckBox("IsCombo")</span>
+                                    <label class="ml-1">
+                                    IsCombo
+                                    </label>
+                                    </div>
+
+
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label>Combo <span style="color:red;">*</span></label>
-                                    @Html.CheckBox("IsCombo")
+                                    <label>
+                                        Tax <span style="color:red;">*</span>
+                                    </label>
+                                    <span class="ml-3"> @Html.RadioButton("Tax", "Yes",new{@id="t1"})</span>
+                                    <label for="Yes" class="ml-1">
+                                        Yes
+                                    </label>
+
+                                    @Html.RadioButton("Tax","No",new{@id="t2"})
+                                    <label for="No" class="ml-1">
+                                        No
+                                    </label>
+                                </div>
+                            </div>
+                              <div class="col-md-12">
+                                <div class="form-group taxmenu">
+                                    <label>
+                                        Tax Name
+                                    </label>
+                                   <div class="row ">
+                                       <div class="col-md-6">
+                                            @Html.Editor("TaxName", new { htmlAttributes = new { @class = "form-control TaxName1        " } })
+                                       </div>
+                                        <div class="col-md-6">
+                                            @Html.Editor("TaxName", new { htmlAttributes = new { @class = "form-control TaxName1   ",  @type="number"} })
+                                        </div>
+                                   </div>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>
-                                        Item Image
+                                        Combo Pack <span style="color:red;">*</span>
                                     </label>
-                                    <input type="file" name="file" id="itemId" />
+                                    <span class="ml-3"> @Html.RadioButton("Combo", "Yes" )</span>
+                                    <label for="Yes" class="ml-1">
+                                        Yes
+                                    </label>
+
+                                    @Html.RadioButton("Combo","No")
+                                    <label for="No" class="ml-1">
+                                        No
+                                    </label>
                                 </div>
                             </div>
-                           
-                         
-                           
-                        </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>
+                                       Item Available Time <span style="color:red;">*</span>
+                                    </label>
+                                    <span class="ml-3"> @Html.CheckBox("Breakfast")</span>
+                                    <label class="ml-1">
+                                        Breakfast
+                                    </label>
 
+                                    <span class="ml-3"> @Html.CheckBox("Brunch")</span>
+                                    <label class="ml-1">
+                                        Brunch
+                                    </label>
+                                    <span class="ml-3"> @Html.CheckBox("Lunch")</span>
+                                    <label class="ml-1">
+                                        Lunch
+                                    </label>
+                                    <span class="ml-3"> @Html.CheckBox("Supper")</span>
+                                    <label class="ml-1">
+                                        Supper
+                                    </label>
+                                    <span class="ml-3"> @Html.CheckBox("Dinner")</span>
+                                    <label class="ml-1">
+                                        Dinner
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.CategoryId,new {@class="form-control-label"})
+                                    @Html.DropDownListFor(f=>f.CategoryId, ViewBag.CategoryList as SelectList, "---SELECT---", new { @class = "form-control " })
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>
+                                        Choose Choices <span style="color:red;">*</span>
+                                    </label>
+                                    <span class="ml-3"> @Html.RadioButton("Choices",  "Yes",new {@id="c1"})</span>
+                                    <label for="Yes" class="ml-1">
+                                        Yes     
+                                    </label>
+
+                                    @Html.RadioButton("Choices", "No",new {@id="c2"})
+                                    <label for="No" class="ml-1">
+                                        No
+                                    </label>
+                                </div>
+                            </div>
+                           <div class="row">
+                             
+                               <div class="col-md-10">
+                                   <div class="txtchoice">
+                                    <h2>Add Choise</h2>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                         <div class="row">
+                                             <div class="col-md-3">
+                                                    <span class="ml-3"> @Html.CheckBox("Extra Cheese")</span>
+                                            <label class="ml-1">
+                                                Extra Cheese
+                                            </label>
+                                             </div>
+                                                <div class="col-md-3">
+                                                    @Html.Editor("TaxName", new { htmlAttributes = new { @class = "form-control form-control-user  ",  @type="number"} })
+                                                </div>
+                                         </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <span class="ml-3"> @Html.CheckBox("Extra Chicken")</span>
+                                                    <label class="ml-1">
+                                                            Extra Chicken
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    @Html.Editor("TaxName", new { htmlAttributes = new { @class = "form-control  ",  @type="number"} })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                   <div class="col-md-12">
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <span class="ml-3"> @Html.CheckBox("Mayonnaise")</span>
+                                                    <label class="ml-1">
+                                                            Mayonnaise
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    @Html.Editor("TaxName", new { htmlAttributes = new { @class = "form-control  ",  @type="number"} })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>
+                                            Item Description
+                                        </label>
+                                            @Html.TextArea("ItemDescription",  new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.ItemImage,new {@class="form-control-label"})
+                                            <input type="file" name="file" id="itemId" />
+
+                                        </div>
+                                    </div>
+                                
+
+
+
+
+                               </div>
+                           </div>
                     </div>
-
-                </div>
+              </div>
+        </div>
                 <div class="card-footer">
                     <div class="row align-items-center">
                         <div class="col-12 text-center">
@@ -82,6 +246,9 @@
         </div>
     </div>
 </div>
+
+
+
 @section Scripts{
     <script src="~/Assets/ManageItem.js" asp-append-version="true"></script>
 

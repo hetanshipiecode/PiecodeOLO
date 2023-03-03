@@ -33,7 +33,7 @@ $('#delete-btn').click(function () {
 
 
 function loadAllItem() {
-    debugger
+  
     var url = "/Item/GetAllItem"
 
     table = $("#itemTbl").DataTable({
@@ -58,16 +58,16 @@ function loadAllItem() {
             {
 
                 "data": function (full) {
+                    console.log(full);
                     var imgPath = '/Content/Item/' + full.itemimage;
                     return "<img src=" + imgPath + " >";
                 }  
             },
             {
-                "data": "isActive"
+                "data": "isCombo"
             },
 
             {
-                orderable: false,
                 "render": function (data, type, full, meta) {
                     return ` <a href="/Item/Edit/` + full.id + `" data-id="` + full.id + `" class="btn btn-success btn-sm" title="Edit">
                                     <i class="fa fa-edit"></i>

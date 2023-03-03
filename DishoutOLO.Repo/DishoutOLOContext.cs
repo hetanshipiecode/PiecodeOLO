@@ -22,5 +22,9 @@ namespace DishoutOLO.Repo
         public DbSet<Category> Categories { get; set; }
 
         public DbSet<Menu> Menus { get; set; }
+
+        public DbSet<Item> Items { get; set; }
+
+
     }
 }

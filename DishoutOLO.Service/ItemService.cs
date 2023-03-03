@@ -1,15 +1,10 @@
 ﻿using AutoMapper;
 using DishoutOLO.Data;
-using DishoutOLO.Repo;
 using DishoutOLO.Repo.Interface;
 using DishoutOLO.Service.Interface;
 using DishoutOLO.ViewModel;
 using DishoutOLO.ViewModel.Helper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace DishoutOLO.Service
 {
@@ -97,6 +92,8 @@ namespace DishoutOLO.Service
                                      .Select(y => new ListItmeModel()
                                      { Id = y.Id, ItemName = y.ItemName, IsCombo = y.IsCombo }
                                      ).Distinct().OrderByDescending(x => x.Id).AsEnumerable();
+
+
 
                 var sortColumn = string.Empty;
                 var sortColumnDirection = string.Empty;

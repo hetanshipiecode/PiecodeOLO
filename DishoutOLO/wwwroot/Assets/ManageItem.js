@@ -14,26 +14,31 @@
             }
         });
 
+        
         if (retval) {
             var data = {
                 id: $("#Id").val(),
                 CategoryId: $("#CategoryId").val(),
                 ItemName: $("#ItemName").val(),
                 ItemImage: $("#ItemImage").val(),
-                IsActive: $("#IsActive").val() == "true" ? true : false
+                IsActive: $("#IsCombo").val() == "true" ? true : false
             }
             var formData = new FormData();
             formData.append("Id", data.id);
             formData.append("CategoryId", data.CategoryId);
             formData.append("ItemName", data.ItemName);
             formData.append("File", $("#itemId")[0].files[0]);
-            formData.append("IsActive", data.IsActive);
+            formData.append("IsCombo", data.IsActive);
 
             //StartProcess();
             $.ajax({
                 type: "POST",
                 url: "/Item/AddOrUpdateItem",
-                data: { itemVM: data },
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+
                 success: function (data) {
                     if (!data.isSuccess) {
                         console.log(data);
@@ -45,6 +50,9 @@
                     }
                 }
             });
+        }
+        else {
+            alert("retval not available");
         }
     })
 });
@@ -76,3 +84,32 @@ $('#delete-btn').click(function () {
         }
     });
 });
+
+
+
+    $(document).ready(function () {
+        
+        $(".taxmenu").hide();
+    $("#t1").click(function () {
+        $(".taxmenu").show();
+        });
+    $("#t2").click(function () {
+        $(".taxmenu").hide();
+        });
+    });
+
+$(document).ready(function () {
+
+    $(".txtchoice").hide();
+    $("#c1").click(function () {
+        $(".txtchoice").show();
+    });
+    $("#c2").click(function () {
+        $(".txtchoice").hide();
+    });
+});
+
+    
+
+
+
