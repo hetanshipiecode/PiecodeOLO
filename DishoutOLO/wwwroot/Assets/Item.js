@@ -33,7 +33,7 @@ $('#delete-btn').click(function () {
 
 
 function loadAllItem() {
-  
+
     var url = "/Item/GetAllItem"
 
     table = $("#itemTbl").DataTable({
@@ -50,38 +50,57 @@ function loadAllItem() {
 
         "columns": [
             {
-                "data": "categoryId"
+                "data": "categoryName"
             },
             {
-                "data": "itemName"
+                "data": "itemName"  
             },
             {
 
                 "data": function (full) {
-                    
+
                     var imgPath = '/Content/Item/' + full.itemImage;
                     console.log(full);
-                    return "<img src=" + imgPath + " >";
-                }  
+                    return "<img src=" + imgPath + " height='20'>";
+                    
+                }
             },
             {
-                "data": "isCombo"
-            },
+                "data": function (show) {
+                    console.log(show);
 
-            {
-                "render": function (data, type, full, meta) {
-                    return ` <a href="/Item/Edit/` + full.id + `" data-id="` + full.id + `" class="btn btn-success btn-sm" title="Edit">
+                    if (show.isCombo == true) {
+                        return "Yes";
+                    }
+                    else {
+                        return "No";
+                    }
+
+                }
+
+
+            },      
+                 
+{
+
+
+    orderable: false,
+    "render": function (data, type, full, meta) {
+        return ` <a href="/Item/Edit/` + full.id + `" data-id="` + full.id + `" class="btn btn-success btn-sm" title="Edit">
                                     <i class="fa fa-edit"></i>
                              </a>
                              <a href="javascript:void(0)" id="btn-delete" data-id="`+ full.id + `" class="btn btn-danger btn-sm" title="Delete">
                                     <i class="fa fa-trash"></i>
                              </a>`;
-                }
-            }
+
+    }
+}
 
         ],
 
     });
 
 }
+
+
 

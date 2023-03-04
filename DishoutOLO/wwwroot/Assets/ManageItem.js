@@ -13,6 +13,8 @@
                 $(this).removeClass("error");
             }
         });
+
+         
               
         if (retval) {
             var data = {
@@ -20,14 +22,18 @@
                 CategoryId: $("#CategoryId").val(),
                 ItemName: $("#ItemName").val(),
                 ItemImage: $("#ItemImage").val(),
-                IsActive: $("#IsCombo").val() == "true" ? true : false
+                IsActive: $("#IsCombo").is(':checked') ? true : false,
+                IsVeg: $("#Veg").val()=='Veg' ? true : false,
+                IsTax: $("#t1").val()=='Yes' ? true : false
             }
             var formData = new FormData();
             formData.append("Id", data.id);
             formData.append("CategoryId", data.CategoryId);
             formData.append("ItemName", data.ItemName);
             formData.append("File", $("#itemId")[0].files[0]);
+            formData.append("IsVeg", data.IsVeg);
             formData.append("IsCombo", data.IsActive);
+            formData.append("IsTax", data.IsTax);
 
             //StartProcess();
             $.ajax({
@@ -42,7 +48,9 @@
                     if (!data.isSuccess) {
                         console.log(data);
                         //StopProcess();
-                        $("#lblError").addClass("error").text(data.message.toString()).show();
+                        if (data != null) {
+                            $("#lblError").addClass("error").text(data.errors[0].errorDescription).show();
+                        }
                     }
                     else {
                         window.location.href = '/Item/Index'

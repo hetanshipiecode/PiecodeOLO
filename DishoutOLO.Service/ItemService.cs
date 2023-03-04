@@ -9,15 +9,19 @@ using DishoutOLO.ViewModel.Helper;
 
 namespace DishoutOLO.Service
 {
-    
-    public class ItemService: IitemService
+
+    public class ItemService : IitemService
     {
         private IRepository<Item> _itemRepository;
+        private IRepository<Category> _categoryRepository;
+
         private readonly IMapper _mapper;
 
-        public ItemService(IRepository<Item> itemRepository, IMapper mapper)
+        public ItemService(IRepository<Item> itemRepository, IMapper mapper, IRepository<Category> categoryRepository)
         {
             _itemRepository = itemRepository;
+            _categoryRepository = categoryRepository;
+
             _mapper = mapper;
         }
 
@@ -40,21 +44,30 @@ namespace DishoutOLO.Service
                     }
 
                 }
-                if (data.Id == 0)
+                if ( response.Errors==null)
                 {
-                    Item tblItem = _mapper.Map<AddItemModel, Item>(data);
-                    tblItem.CreationDate = DateTime.Now;
-                    tblItem.IsActive = true;
-                    _itemRepository.Insert(tblItem);
+                    if (data.Id == 0)
+                    {
+
+                        Item tblItem = _mapper.Map<AddItemModel, Item>(data);
+                            tblItem.CreationDate = DateTime.Now;
+                        tblItem.IsActive = true;
+                        _itemRepository.Insert(tblItem);
+                    }
+                    else
+                    {
+                        Item chk = _itemRepository.GetByPredicate(x => x.Id == data.Id && x.IsActive);
+                        DateTime createdDt = chk.CreationDate; bool isActive = chk.IsActive;
+                        chk = _mapper.Map<AddItemModel, Item>(data);
+                        chk.ModifiedDate = DateTime.Now; chk.CreationDate = createdDt; chk.IsActive = isActive;
+                        _itemRepository.Update(chk);
+                    }
                 }
                 else
                 {
-                    Item chk = _itemRepository.GetByPredicate(x => x.Id == data.Id && x.IsActive);
-                    DateTime createdDt = chk.CreationDate; bool isActive = chk.IsActive;
-                    chk = _mapper.Map<AddItemModel, Item>(data);
-                    chk.ModifiedDate = DateTime.Now; chk.CreationDate = createdDt; chk.IsActive = isActive;
-                    _itemRepository.Update(chk);
+                    return response;
                 }
+
                 return new DishoutOLOResponseModel() { IsSuccess = true, Message = data.Id == 0 ? string.Format(Constants.AddedSuccessfully, "Item") : string.Format(Constants.UpdatedSuccessfully, "Item") };
             }
             catch (Exception)
@@ -88,11 +101,34 @@ namespace DishoutOLO.Service
         {
             try
             {
-                var data = _itemRepository.GetListByPredicate(x => x.IsCombo == true
-                                     )
-                                     .Select(y => new ListItmeModel()
-                                     { Id = y.Id, CategoryId = y.CategoryId, ItemName = y.ItemName,ItemImage=y.ItemImage,IsActive=y.IsActive, IsCombo = y.IsCombo, }
-                                     ).Distinct().Where(x => x.IsActive==true).OrderByDescending(x => x.Id ).AsEnumerable();
+                //var data = _itemRepository.GetListByPredicate(x => x.IsCombo == true
+                //                     )
+                //                     .Select(y => new ListItemModel()
+                //                     { Id = y.Id, CategoryId = y.CategoryId, ItemName = y.ItemName,ItemImage=y.ItemImage,IsActive=y.IsActive, IsCombo = y.IsCombo, }
+                //                     ).Distinct().Where(x => x.IsActive==true).OrderByDescending(x => x.Id ).AsEnumerable();
+
+
+
+
+
+
+
+                var data = (from ct in _categoryRepository.GetAll()
+                            join it in _itemRepository.GetAll() on
+                            ct.Id equals it.CategoryId
+                            where it.IsActive == true
+                            select new ListItemModel
+
+                            {
+                                CategoryName = ct.CategoryName,
+                                ItemName = it.ItemName,
+                                ItemImage = it.ItemImage,
+                                IsCombo = it.IsCombo,
+                                IsActive = it.IsActive,
+                                Id = it.Id,
+                            }).AsEnumerable();
+
+
 
 
 
@@ -176,8 +212,8 @@ namespace DishoutOLO.Service
             {
                 var item = _itemRepository.GetListByPredicate(x => x.IsCombo == true && x.Id == Id
                                      )
-                                     .Select(y => new ListItmeModel()
-                                     { Id = y.Id, ItemName = y.ItemName, IsCombo = y.IsCombo }
+                                     .Select(y => new ListItemModel()
+                                     { Id = y.Id, ItemName = y.ItemName, IsCombo = y.IsCombo,IsTax=y.IsTax,IsVeg=y.IsVeg }
                                      ).FirstOrDefault();
 
                 if (item != null)
@@ -185,6 +221,9 @@ namespace DishoutOLO.Service
                     AddItemModel obj = new AddItemModel();
                     obj.Id = item.Id;
                     obj.ItemName = item.ItemName;
+                    obj.IsVeg = item.IsVeg;
+                    obj.IsTax= item.IsTax;
+                    obj.IsCombo = item.IsCombo;
                     return obj;
                 }
                 return new AddItemModel();

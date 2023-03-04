@@ -35,7 +35,7 @@ namespace DishoutOLO.Controllers
             var list = _ItemService.GetItemList(filter);
             return Json(list);
         }
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int id )
         {
             //if (file != null)
             //{
@@ -49,7 +49,7 @@ namespace DishoutOLO.Controllers
             //    itemVM.ItemImage = fileName;
             //}
             ViewBag.CategoryList = new SelectList((IList)_categoryService.GetAllCategories().Data, "Id", "CategoryName");
-
+            var f = _ItemService.GetAddItem(id);
             return View("ManageItem", _ItemService.GetAddItem(id));
         }
 
