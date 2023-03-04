@@ -76,7 +76,7 @@ namespace DishoutOLO.Service
                     _menuRepository.SaveChanges();
                 }
 
-                return new DishoutOLOResponseModel { IsSuccess = true,Data = chk.Image, Message = string.Format(Constants.DeletedSuccessfully, "Category") };
+                return new DishoutOLOResponseModel { IsSuccess = true,Data = chk.Image, Message = string.Format(Constants.DeletedSuccessfully, "Menu") };
             }
             catch (Exception ex)
             {

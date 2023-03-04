@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections;
 using DishoutOLO.Service;
 using DishoutOLO.Helpers;
+using DishoutOLO.Data;
 
 namespace DishoutOLO.Controllers
 {
@@ -36,6 +37,19 @@ namespace DishoutOLO.Controllers
         }
         public ActionResult Edit(int id)
         {
+            //if (file != null)
+            //{
+            //    string fileName = $"{Guid.NewGuid().ToString()}{Path.GetExtension(file.FileName)}";
+            //    string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Content/Item", fileName);
+            //    Utility.SaveFile(file, path);
+            //    if (itemVM.Id > 0)
+            //    {
+            //        Utility.DeleteFile(path);
+            //    }
+            //    itemVM.ItemImage = fileName;
+            //}
+            ViewBag.CategoryList = new SelectList((IList)_categoryService.GetAllCategories().Data, "Id", "CategoryName");
+
             return View("ManageItem", _ItemService.GetAddItem(id));
         }
 
@@ -43,18 +57,21 @@ namespace DishoutOLO.Controllers
        
         public JsonResult AddOrUpdateItem(AddItemModel itemVM,IFormFile file)
         {
+            AddItemModel itemModel = new AddItemModel();
+
             if (file != null)
             {
                     string fileName = $"{Guid.NewGuid().ToString()}{Path.GetExtension(file.FileName)}";
                 string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Content/Item", fileName);
                 Utility.SaveFile(file, path);
-                if (itemVM.Id > 0)
-                {
-                    Utility.DeleteFile(path);
-                }
+                //if (itemVM.Id > 0)
+                //{
+                //    Utility.DeleteFile(path);
+                //}
                 itemVM.ItemImage = fileName;
             }
             return Json(_ItemService.AddOrUpdateItem(itemVM));
+
         }
         public IActionResult DeleteItem(int id)
         {

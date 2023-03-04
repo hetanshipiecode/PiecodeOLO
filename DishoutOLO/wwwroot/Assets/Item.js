@@ -58,8 +58,9 @@ function loadAllItem() {
             {
 
                 "data": function (full) {
+                    
+                    var imgPath = '/Content/Item/' + full.itemImage;
                     console.log(full);
-                    var imgPath = '/Content/Item/' + full.itemimage;
                     return "<img src=" + imgPath + " >";
                 }  
             },

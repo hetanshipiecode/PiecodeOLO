@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DishoutOLO.Data;
+using DishoutOLO.Repo;
 using DishoutOLO.Repo.Interface;
 using DishoutOLO.Service.Interface;
 using DishoutOLO.ViewModel;
@@ -75,7 +76,7 @@ namespace DishoutOLO.Service
                     _itemRepository.SaveChanges();
                 }
 
-                return new DishoutOLOResponseModel { IsSuccess = true, Message = string.Format(Constants.DeletedSuccessfully, "Item") };
+                return new DishoutOLOResponseModel { IsSuccess = true, Data = chk.ItemImage, Message = string.Format(Constants.DeletedSuccessfully, "Menu") };
             }
             catch (Exception ex)
             {
@@ -90,8 +91,8 @@ namespace DishoutOLO.Service
                 var data = _itemRepository.GetListByPredicate(x => x.IsCombo == true
                                      )
                                      .Select(y => new ListItmeModel()
-                                     { Id = y.Id, ItemName = y.ItemName, IsCombo = y.IsCombo }
-                                     ).Distinct().OrderByDescending(x => x.Id).AsEnumerable();
+                                     { Id = y.Id, CategoryId = y.CategoryId, ItemName = y.ItemName,ItemImage=y.ItemImage,IsActive=y.IsActive, IsCombo = y.IsCombo, }
+                                     ).Distinct().Where(x => x.IsActive==true).OrderByDescending(x => x.Id ).AsEnumerable();
 
 
 

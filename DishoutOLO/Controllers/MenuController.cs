@@ -62,10 +62,10 @@ namespace DishoutOLO.Controllers
                 string fileName = $"{Guid.NewGuid().ToString()}{Path.GetExtension(file.FileName)}";
                 string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Content/Menu", fileName);
                 Utility.SaveFile(file, path);
-                if (menuVM.Id > 0)
-                {
-                    Utility.DeleteFile(path);
-                }
+                //if (menuVM.Id > 0)
+                //{
+                //    Utility.DeleteFile(path);
+                //}
                 menuVM.Image = fileName;
             }
             return Json(_menuService.AddOrUpdateMenu(menuVM,menuVM.Id>0?menuVM.Image:string.Empty));
