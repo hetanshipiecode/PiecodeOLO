@@ -58,6 +58,8 @@ function loadAllMenu() {
                 "data": "menuPrice"
             },
             {
+                orderable: false,
+
                 "data": function (full) {
                     var imgPath = '/Content/Menu/' + full.image;
                     return "<img src=" + imgPath +" >";

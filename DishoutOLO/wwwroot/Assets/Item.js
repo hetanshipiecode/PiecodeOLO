@@ -56,19 +56,17 @@ function loadAllItem() {
                 "data": "itemName"  
             },
             {
+                orderable: false,
 
                 "data": function (full) {
 
                     var imgPath = '/Content/Item/' + full.itemImage;
-                    console.log(full);
                     return "<img src=" + imgPath + " height='20'>";
                     
                 }
             },
             {
                 "data": function (show) {
-                    console.log(show);
-
                     if (show.isCombo == true) {
                         return "Yes";
                     }

@@ -10,7 +10,7 @@ namespace DishoutOLO.Service.Interface
         public DishoutOLOResponseModel DeleteCategory(int data);
         public DataTableFilterModel GetCategoryList(DataTableFilterModel filter);
 
-        public AddCategoryModel GetAddCategory(int Id);
+        public AddCategoryModel GetCategory(int Id);
 
         public DishoutOLOResponseModel GetAllCategories();
 

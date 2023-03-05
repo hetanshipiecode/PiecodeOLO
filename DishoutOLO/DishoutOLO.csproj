@@ -14,7 +14,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\Assets\Article.js" />
+    <Content Remove="wwwroot\Assets\ManageArticle.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Assets\Article.js" />
     <None Include="wwwroot\Assets\Category.js" />
+    <None Include="wwwroot\Assets\ManageArticle.js" />
     <None Include="wwwroot\Assets\Managecategory.js" />
     <None Include="wwwroot\js\site.js" />
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map" />

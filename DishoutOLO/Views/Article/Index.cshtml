@@ -1,0 +1,60 @@
+﻿@{
+    ViewData["Title"] = "Article";
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Article</h3>
+                </div>
+                <div class="col-lg-12 mt-n5 text-right">
+                    <a href="/Article/Create" class="btn btn-md btn-warning">
+                        Add Article
+                    </a>
+                </div>
+
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="articleTbl" class="table table-bordered table-hover">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col" class="sort" data-sort="name">Article Name</th>
+
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<partial name="_CommonResponseModel" />
+
+@section Scripts {
+
+    <script src="~/Assets/Article.js" asp-append-version="true"></script>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

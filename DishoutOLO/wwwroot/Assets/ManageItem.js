@@ -14,8 +14,8 @@
             }
         });
 
-         
-              
+
+
         if (retval) {
             var data = {
                 id: $("#Id").val(),
@@ -23,8 +23,8 @@
                 ItemName: $("#ItemName").val(),
                 ItemImage: $("#ItemImage").val(),
                 IsActive: $("#IsCombo").is(':checked') ? true : false,
-                IsVeg: $("#Veg").val()=='Veg' ? true : false,
-                IsTax: $("#t1").val()=='Yes' ? true : false
+                IsVeg: $("#Veg").val() == 'Veg' ? true : false,
+                IsTax: $("#t1").val() == 'Yes' ? true : false
             }
             var formData = new FormData();
             formData.append("Id", data.id);
@@ -46,8 +46,6 @@
 
                 success: function (data) {
                     if (!data.isSuccess) {
-                        console.log(data);
-                        //StopProcess();
                         if (data != null) {
                             $("#lblError").addClass("error").text(data.errors[0].errorDescription).show();
                         }
@@ -64,46 +62,16 @@
     })
 });
 
+$(document).ready(function () {
 
-$("#myTable").on("click", "a.btn-delete", function () {
-    var id = $(this).data('id');
-    $('#deleteModal').data('id', id).modal('show');
-    $('#deleteModal').modal('show');
-});
-$('#delete-btn').click(function () {
-    var id = $('#deleteModal').data('id');
-    $.ajax({
-        type: "POST",
-        url: "/Item/DeleteItem",
-        data: { id: id },
-        success: function (response) {
-            if (response.status != "Fail") {
-                $('#deleteModal').modal('hide');
-                location.reload();
-            }
-            else {
-                $('#deleteModal').modal('hide');
-                funToastr(false, response.error);
-            }
-        },
-        error: function (error) {
-            toastr.error(error)
-        }
-    });
-});
-
-
-
-    $(document).ready(function () {
-        
-        $(".taxmenu").hide();
+    $(".taxmenu").hide();
     $("#t1").click(function () {
         $(".taxmenu").show();
-        });
+    });
     $("#t2").click(function () {
         $(".taxmenu").hide();
-        });
     });
+});
 
 $(document).ready(function () {
 
@@ -116,7 +84,7 @@ $(document).ready(function () {
     });
 });
 
-    
+
 
 
 

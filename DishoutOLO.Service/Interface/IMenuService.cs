@@ -8,7 +8,7 @@ namespace DishoutOLO.Service.Interface
         public DishoutOLOResponseModel AddOrUpdateMenu(AddMenuModel data,string imgPath="");
 
         public DishoutOLOResponseModel DeleteMenu(int data);
-        public AddMenuModel GetAddMenu(int Id);
+        public AddMenuModel GetMenu(int Id);
 
         public DataTableFilterModel GetMenuList(DataTableFilterModel filter);
 

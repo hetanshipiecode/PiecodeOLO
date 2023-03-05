@@ -11,7 +11,7 @@ namespace DishoutOLO.Service.Interface
         public DishoutOLOResponseModel DeleteItem(int data);
         public DataTableFilterModel GetItemList(DataTableFilterModel filter);
 
-        public AddItemModel GetAddItem(int Id);
+        public AddItemModel GetItem(int Id);
 
         public DishoutOLOResponseModel GetAllCategories();
     }

@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
 using DishoutOLO.Data;
-using DishoutOLO.Repo;
 using DishoutOLO.Repo.Interface;
 using DishoutOLO.Service.Interface;
 using DishoutOLO.ViewModel;
 using DishoutOLO.ViewModel.Helper;
-
 
 namespace DishoutOLO.Service
 {
@@ -101,17 +99,6 @@ namespace DishoutOLO.Service
         {
             try
             {
-                //var data = _itemRepository.GetListByPredicate(x => x.IsCombo == true
-                //                     )
-                //                     .Select(y => new ListItemModel()
-                //                     { Id = y.Id, CategoryId = y.CategoryId, ItemName = y.ItemName,ItemImage=y.ItemImage,IsActive=y.IsActive, IsCombo = y.IsCombo, }
-                //                     ).Distinct().Where(x => x.IsActive==true).OrderByDescending(x => x.Id ).AsEnumerable();
-
-
-
-
-
-
 
                 var data = (from ct in _categoryRepository.GetAll()
                             join it in _itemRepository.GetAll() on
@@ -127,9 +114,6 @@ namespace DishoutOLO.Service
                                 IsActive = it.IsActive,
                                 Id = it.Id,
                             }).AsEnumerable();
-
-
-
 
 
                 var sortColumn = string.Empty;
@@ -206,7 +190,7 @@ namespace DishoutOLO.Service
         }
 
 
-        public AddItemModel GetAddItem(int Id)
+        public AddItemModel GetItem(int Id)
         {
             try
             {

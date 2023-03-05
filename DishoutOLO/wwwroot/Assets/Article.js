@@ -1,8 +1,11 @@
-﻿var table;
+﻿//const { data } = require("jquery");
+
+var table;
 $("document").ready(function () {
-    loadAllCategory();
+    loadAllArticles();
+
 })
-$("#categoryTbl").on("click", "a#btn-delete", function () {
+$("#articleTbl").on("click", "a#btn-delete", function () {
     var id = $(this).data('id');
     $('#deleteModal').data('id', id).modal('show');
     $('#deleteModal').modal('show');
@@ -11,7 +14,7 @@ $('#delete-btn').click(function () {
     var id = $('#deleteModal').data('id');
     $.ajax({
         type: "GET",
-        url: "/Category/DeleteCategory",
+        url: "/Article/DeleteArticle",
         data: { id: id },
         success: function (response) {
             if (!response.isSuccess) {
@@ -20,7 +23,7 @@ $('#delete-btn').click(function () {
             else {
                 $('#deleteModal').modal('hide');
                 table.ajax.reload()
-            //    funToastr(true, response.message);
+                //    funToastr(true, response.message);
             }
         },
         error: function (error) {
@@ -29,11 +32,12 @@ $('#delete-btn').click(function () {
 });
 
 
-function loadAllCategory() {
-    var url = "/Category/GetAllCategory"
-   
-    table = $("#categoryTbl").DataTable({
-        
+function loadAllArticles() {
+    debugger
+    var url = "/Article/GetAllArticle"
+
+    table = $("#articleTbl").DataTable({
+
         "searching": true,
         "serverSide": true,
         "bFilter": true,
@@ -43,16 +47,16 @@ function loadAllCategory() {
             type: "POST",
             datatype: "json"
         },
-        
+
         "columns": [
             {
-                "data": "categoryName"
-            },  
-            
+                "data": "articleName"
+            },
+
             {
-                orderable: false ,
-                "render":function(data,type,full,meta) {
-                    return ` <a href="/Category/Edit/` + full.id + `" data-id="` + full.id + `" class="btn btn-success btn-sm" title="Edit">
+                orderable: false,
+                "render": function (data, type, full, meta) {
+                    return ` <a href="/Article/Edit/` + full.id + `" data-id="` + full.id + `" class="btn btn-success btn-sm" title="Edit">
                                     <i class="fa fa-edit"></i>
                              </a>
                              <a href="javascript:void(0)" id="btn-delete" data-id="`+ full.id + `" class="btn btn-danger btn-sm" title="Delete">
@@ -62,8 +66,8 @@ function loadAllCategory() {
             }
 
         ],
-       
+
     });
-    
+
 }
 

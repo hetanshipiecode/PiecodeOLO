@@ -3,8 +3,6 @@ using DishoutOLO.Repo.Interface;
 using DishoutOLO.Service;
 using DishoutOLO.Service.Interface;
 using Microsoft.EntityFrameworkCore;
-using System;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -18,7 +16,8 @@ builder.Services.AddScoped<IMenuRepository, MenuRepository>();
 builder.Services.AddAutoMapper(typeof(DishoutOLO.MapperConfiguration));
 builder.Services.AddScoped<IitemService, ItemService>();
 builder.Services.AddScoped<IItemRepositrory, ItemRepository>();
-
+builder.Services.AddScoped<IArticleService, ArticleService>();
+builder.Services.AddScoped<IArticleRepository, ArticleRepository>();
 
 //var connectionString = builder.Configuration.GetConnectionString("ConnectionStrings:ConnectDB");
 builder.Services.AddDbContext<DishoutOLOContext>(x => x.UseSqlServer(builder.Configuration["ConnectionStrings:ConnectDB"]));

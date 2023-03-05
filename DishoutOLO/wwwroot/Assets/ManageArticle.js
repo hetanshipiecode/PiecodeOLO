@@ -17,20 +17,21 @@
         if (retval) {
             var data = {
                 id: $("#Id").val(),
-                CategoryName: $("#CategoryName").val(),
+                ArticleName: $("#ArticleName").val().trim(),
+                ArticleDescription: $("#ArticleDescription").val(),
                 IsActive: $("#IsActive").val() == "true" ? true : false
             }
             //StartProcess();
             $.ajax({
                 type: "POST",
-                url: "/Category/AddOrUpdateCategory",
-                data: { categoryVM: data },
+                url: "/Article/AddOrUpdateArticle",
+                data: { articleVM: data },
                 success: function (data) {
                     if (!data.isSuccess) {
                         $("#lblError").addClass("error").text(data.message.toString()).show();
                     }
                     else {
-                        window.location.href = '/Category/Index'
+                        window.location.href = '/Article/Index'
                     }
                 }
             });
