@@ -24,7 +24,6 @@ namespace DishoutOLO.Repo
         public DbSet<Menu> Menus { get; set; }
 
         public DbSet<Item> Items { get; set; }
-
-
+        public DbSet<Article> Articles { get; set; }
     }
 }

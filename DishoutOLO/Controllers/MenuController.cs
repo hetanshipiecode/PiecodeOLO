@@ -49,7 +49,7 @@ namespace DishoutOLO.Controllers
         public ActionResult Edit(int id)
         {
             ViewBag.CategoryList = new SelectList((IList)_categoryService.GetAllCategories().Data, "Id", "CategoryName");
-            return View("ManageMenu", _menuService.GetAddMenu(id));
+            return View("ManageMenu", _menuService.GetMenu(id));
         }
 
 

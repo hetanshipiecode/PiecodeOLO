@@ -22,6 +22,7 @@ namespace DishoutOLO.Controllers
         }
         public IActionResult Index()
         {
+            ViewBag.CategoryList = new SelectList((IList)_categoryService.GetAllCategories().Data, "Id", "CategoryName");
             return View();
         }
         public IActionResult Create()
@@ -54,8 +55,8 @@ namespace DishoutOLO.Controllers
             //    itemVM.ItemImage = fileName;
             //}
             ViewBag.CategoryList = new SelectList((IList)_categoryService.GetAllCategories().Data, "Id", "CategoryName");
-            var f = _ItemService.GetAddItem(id);
-            return View("ManageItem", _ItemService.GetAddItem(id));
+            var f = _ItemService.GetItem(id);
+            return View("ManageItem", _ItemService.GetItem(id));
         }
 
 

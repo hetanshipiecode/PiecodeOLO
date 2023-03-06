@@ -43,8 +43,6 @@
                 type: 'POST', // For jQuery < 1.9
                 success: function (data) {
                     if (!data.isSuccess) {
-                        console.log(data);
-                        //StopProcess();
                         $("#lblError").addClass("error").text(data.message.toString()).show();
                     }
                     else {
@@ -54,32 +52,4 @@
             });
         }
     })
-});
-
-
-$("#myTable").on("click", "a.btn-delete", function () {
-    var id = $(this).data('id');
-    $('#deleteModal').data('id', id).modal('show');
-    $('#deleteModal').modal('show');
-});
-$('#delete-btn').click(function () {
-    var id = $('#deleteModal').data('id');
-    $.ajax({
-        type: "POST",
-        url: "/Menu/DeleteMenu",
-        data: { id: id },
-        success: function (response) {
-            if (response.status != "Fail") {
-                $('#deleteModal').modal('hide');
-                location.reload();
-            }
-            else {
-                $('#deleteModal').modal('hide');
-                funToastr(false, response.error);
-            }
-        },
-        error: function (error) {
-            toastr.error(error)
-        }
-    });
 });

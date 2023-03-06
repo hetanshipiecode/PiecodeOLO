@@ -17,7 +17,7 @@
                     <tbody>
                         <tr>
                             
-                            <td>  <input type="text" class="form-control" id="txtCategoryName" placeholder="Category Name" /></td>
+                            <td>   @Html.DropDownList("CategoryName", ViewBag.CategoryList as SelectList, "---SELECT---", new { @class = "form-control " })
                             
                           
                             <td> <input type="text" class="form-control" id="txtItemName" placeholder="Item Name" /></td>
@@ -33,7 +33,7 @@
                     <table id="itemTbl" class="table table-bordered table-hover">
                         <thead class="thead-light">
                             <tr>
-                                <th scope="col" class="sort" data-sort="name">CategoryId </th>
+                                <th scope="col" class="sort" data-sort="name">Category </th>
                                 <th scope="col" class="sort" data-sort="name">Item Name</th>
                                 <th scope="col" class="sort" data-sort="name">Item Image</th>
                                 <th scope="col" class="sort" data-sort="name">IsCombo</th>

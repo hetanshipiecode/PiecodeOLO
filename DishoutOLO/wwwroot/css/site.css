@@ -21,7 +21,7 @@ label#lblError {
     text-align: center;
 }
 
-input.error, select.error, div.error, label.error {
+input.error, select.error, div.error, textarea.error, label.error {
     border: 1px dotted #cc5965;
 }
 

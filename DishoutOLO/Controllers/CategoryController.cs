@@ -23,8 +23,6 @@ namespace DishoutOLO.Controllers
         {
             return View("ManageCategory", new AddCategoryModel());
         }
-
-
         public JsonResult GetAllCategory(DataTableFilterModel filter)
         {
              var list = _categoryService.GetCategoryList(filter);
@@ -32,7 +30,7 @@ namespace DishoutOLO.Controllers
         }
         public ActionResult Edit(int id)
         {   
-            return View("ManageCategory", _categoryService.GetAddCategory(id));
+            return View("ManageCategory", _categoryService.GetCategory(id));
         }
 
 
@@ -46,14 +44,5 @@ namespace DishoutOLO.Controllers
             var list = _categoryService.DeleteCategory(id);
             return Json(list);
         }
-
-
-
-
-
-
-
-
-
     }
 }

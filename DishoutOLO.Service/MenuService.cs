@@ -85,7 +85,7 @@ namespace DishoutOLO.Service
         }
 
 
-        public AddMenuModel GetAddMenu(int Id)
+        public AddMenuModel GetMenu(int Id)
         {
             try
             {
