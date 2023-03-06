@@ -178,6 +178,15 @@ namespace DishoutOLO.Service
                 var filteredCount = data.Count();
                 filter.recordsTotal = totalCount;
                 filter.recordsFiltered = filteredCount;
+                if (!string.IsNullOrEmpty(filter.CategoryName) )
+                {
+                    data = data.Where(x => x.CategoryName == filter.CategoryName).ToList();
+                }
+                if(!string.IsNullOrEmpty(filter.ItemName))
+                {
+                    data = data.Where(x => x.ItemName == filter.ItemName).ToList();
+                }
+                if(string.IsNullOrEmpty(filter.ItemName) && string.IsNullOrEmpty(filter.CategoryName))
                 data = data.ToList();
 
                 filter.data = data.Skip(filter.start).Take(filter.length).ToList();
@@ -213,7 +222,7 @@ namespace DishoutOLO.Service
                 var item = _itemRepository.GetListByPredicate(x => x.IsCombo == true && x.Id == Id
                                      )
                                      .Select(y => new ListItemModel()
-                                     { Id = y.Id, ItemName = y.ItemName, IsCombo = y.IsCombo,IsTax=y.IsTax,IsVeg=y.IsVeg }
+                                     { Id = y.Id, ItemName = y.ItemName, IsCombo = y.IsCombo,IsTax=y.IsTax,IsVeg=y.IsVeg,ItemDescription=y.ItemDescription }
                                      ).FirstOrDefault();
 
                 if (item != null)
@@ -224,6 +233,7 @@ namespace DishoutOLO.Service
                     obj.IsVeg = item.IsVeg;
                     obj.IsTax= item.IsTax;
                     obj.IsCombo = item.IsCombo;
+                    obj.ItemDescription= item.ItemDescription;  
                     return obj;
                 }
                 return new AddItemModel();

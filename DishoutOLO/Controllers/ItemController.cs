@@ -31,7 +31,12 @@ namespace DishoutOLO.Controllers
         }
 
         public JsonResult GetAllItem(DataTableFilterModel filter)
-        {
+        {           
+            
+            var CategoryName = Request.Form["columns[1][search][value]"].FirstOrDefault();
+                    var ItemName = Request.Form["columns[2][search][value]"].FirstOrDefault();
+            filter.CategoryName = CategoryName;
+            filter.ItemName = ItemName;
             var list = _ItemService.GetItemList(filter);
             return Json(list);
         }

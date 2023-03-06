@@ -20,6 +20,8 @@ namespace DishoutOLO.ViewModel
         public bool IsVeg { get; set; }
         public bool IsTax { get; set; }
 
+        public string ItemDescription { get; set; }
+
 
     }
     public class ListItemModel
@@ -38,7 +40,8 @@ namespace DishoutOLO.ViewModel
         public bool IsVeg { get; set; }
         public bool IsTax { get; set; }
 
-  
+        public string ItemDescription { get; set; }
+
 
         public class UpdateItemModel
         {
@@ -52,6 +55,7 @@ namespace DishoutOLO.ViewModel
             public string ItemImage { get; set; }
             public IFormFile File { get; set; }
             public bool IsCombo { get; set; }
+            public string ItemDescription { get; set; }
 
         }
 

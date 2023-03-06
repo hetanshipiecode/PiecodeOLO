@@ -31,13 +31,17 @@ $('#delete-btn').click(function () {
     });
 });
 
-
+var index = 0;
 function loadAllItem() {
 
     var url = "/Item/GetAllItem"
+        
+     
+    
 
     table = $("#itemTbl").DataTable({
-
+        "orderCellsTop": true,
+        "fixedHeader": true,
         "searching": true,
         "serverSide": true,
         "bFilter": true,
@@ -47,6 +51,7 @@ function loadAllItem() {
             type: "POST",
             datatype: "json"
         },
+        
 
         "columns": [
             {
@@ -61,7 +66,7 @@ function loadAllItem() {
 
                     var imgPath = '/Content/Item/' + full.itemImage;
                     console.log(full);
-                    return "<img src=" + imgPath + " height='20'>";
+                    return "<img src=" + imgPath + " height='50'width='90'>";
                     
                 }
             },
@@ -97,8 +102,25 @@ function loadAllItem() {
 }
 
         ],
+            
 
     });
+
+   
+    $('#txtCategoryName').on('keyup',function () {
+        table.columns(1).search($('#txtCategoryName').val().trim());
+       
+        table.draw();
+    }); 
+
+    $('#txtItemName').on('keyup', function () {
+       
+        table.columns(2).search($('#txtItemName').val().trim());
+        table.draw();
+    }); 
+
+     
+ 
 
 }
 

@@ -24,7 +24,8 @@
                 ItemImage: $("#ItemImage").val(),
                 IsActive: $("#IsCombo").is(':checked') ? true : false,
                 IsVeg: $("#Veg").val()=='Veg' ? true : false,
-                IsTax: $("#t1").val()=='Yes' ? true : false
+                IsTax: $("#t1").val() == 'Yes' ? true : false,
+                ItemDescription: $("#ItemDescription").val()
             }
             var formData = new FormData();
             formData.append("Id", data.id);
@@ -34,6 +35,7 @@
             formData.append("IsVeg", data.IsVeg);
             formData.append("IsCombo", data.IsActive);
             formData.append("IsTax", data.IsTax);
+            formData.append("ItemDescription", data.ItemDescription);
 
             //StartProcess();
             $.ajax({
