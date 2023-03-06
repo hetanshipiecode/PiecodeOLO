@@ -1,4 +1,5 @@
-﻿using DishoutOLO.Service.Interface;
+﻿using DishoutOLO.Helpers.Provider;
+using DishoutOLO.Service.Interface;
 using DishoutOLO.ViewModel;
 using DishoutOLO.ViewModel.Helper;
 using Microsoft.AspNetCore.Mvc;
@@ -9,9 +10,11 @@ namespace DishoutOLO.Controllers
     public class CategoryController : Controller
     {
         private readonly ICategoryService _categoryService;
-        public CategoryController(ICategoryService categoryService)
+        private  LoggerProvider _loggerProvider;
+        public CategoryController(ICategoryService categoryService, LoggerProvider loggerProvider)
         {
             _categoryService = categoryService;
+            _loggerProvider = loggerProvider;
         }
         public IActionResult Index()
         {
@@ -21,28 +24,60 @@ namespace DishoutOLO.Controllers
 
         public IActionResult Create()
         {
+
             return View("ManageCategory", new AddCategoryModel());
         }
         public JsonResult GetAllCategory(DataTableFilterModel filter)
         {
-             var list = _categoryService.GetCategoryList(filter);
-             return Json(list);     
+            try
+            {
+                var list = _categoryService.GetCategoryList(filter);
+                return Json(list);
+            }
+            catch (Exception ex)
+            {
+                _loggerProvider.logmsg(ex.Message);
+            }
+            return Json(filter);     
         }
         public ActionResult Edit(int id)
-        {   
-            return View("ManageCategory", _categoryService.GetCategory(id));
+        {
+            try
+            {
+                _categoryService.GetCategory(id);
+            }
+            catch (Exception ex)
+            {
+                _loggerProvider.logmsg(ex.Message);
+            }
+            return View("ManageCategory");
         }
 
 
         public JsonResult AddOrUpdateCategory(AddCategoryModel categoryVM)
         {
-               
-              return Json(_categoryService.AddOrUpdateCategory(categoryVM));
+            try
+            {
+                _categoryService.AddOrUpdateCategory(categoryVM);
+            }
+            catch (Exception ex)
+            {
+                _loggerProvider.logmsg(ex.Message);
+            }
+
+            return Json(categoryVM);
         }
         public IActionResult DeleteCategory(int id)
         {
-            var list = _categoryService.DeleteCategory(id);
-            return Json(list);
+            try
+            {
+                var list = _categoryService.DeleteCategory(id);
+            }
+            catch (Exception ex)
+            {
+                _loggerProvider.logmsg(ex.Message);
+            }
+            return Json(id);
         }
     }
 }

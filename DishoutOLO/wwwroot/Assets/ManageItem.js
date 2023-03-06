@@ -14,8 +14,6 @@
             }
         });
 
-
-
         if (retval) {
             var data = {
                 id: $("#Id").val(),
@@ -23,14 +21,10 @@
                 ItemName: $("#ItemName").val(),
                 ItemImage: $("#ItemImage").val(),
                 IsActive: $("#IsCombo").is(':checked') ? true : false,
-<<<<<<< HEAD
                 IsVeg: $("#Veg").val()=='Veg' ? true : false,
                 IsTax: $("#t1").val() == 'Yes' ? true : false,
                 ItemDescription: $("#ItemDescription").val()
-=======
-                IsVeg: $("#Veg").val() == 'Veg' ? true : false,
-                IsTax: $("#t1").val() == 'Yes' ? true : false
->>>>>>> 93d2304b72ce7e5a74874f8db10d980449965dfa
+               
             }
             var formData = new FormData();
             formData.append("Id", data.id);
@@ -58,8 +52,8 @@
                         }
                     }
                     else {
-                        window.location.href = '/Item/Index'
-                    }
+                           window.location.href = '/Item/Index'
+                          }
                 }
             });
         }

@@ -2,15 +2,19 @@
 using DishoutOLO.ViewModel.Helper;
 using DishoutOLO.ViewModel;
 using Microsoft.AspNetCore.Mvc;
+using DishoutOLO.Data;
+using DishoutOLO.Helpers.Provider;
 
 namespace DishoutOLO.Controllers
 {
     public class ArticleController : Controller
     {
         private readonly IArticleService _articleService;
-        public ArticleController(IArticleService articleService)
+        private LoggerProvider _loggerProvider;
+        public ArticleController(IArticleService articleService,LoggerProvider loggerProvider)
         {
             _articleService = articleService;
+            _loggerProvider=loggerProvider;
         }
         public IActionResult Index()
         {
@@ -23,24 +27,57 @@ namespace DishoutOLO.Controllers
         }
         public JsonResult GetAllArticle(DataTableFilterModel filter)
         {
-            var list = _articleService.GetArticleList(filter);
-            return Json(list);
+            try
+            {
+                var list = _articleService.GetArticleList(filter);
+                return Json(list);
+            }
+            catch (Exception ex)
+            {
+                _loggerProvider.logmsg(ex.Message);
+            }
+            return Json(filter);
         }
         public ActionResult Edit(int id)
         {
-            return View("ManageArticle", _articleService.GetArticle(id));
+            try
+            {
+                _articleService.GetArticle(id);
+            }
+            catch (Exception ex)
+            {
+                _loggerProvider.logmsg(ex.Message);
+            }
+            return View("ManageArticle");
         }
 
 
         public JsonResult AddOrUpdateArticle(AddArticleModel articleVM)
         {
+            try
+            {
+                _articleService.AddOrUpdateArticle(articleVM);
+            }
+            catch (Exception ex)
+            {
+                _loggerProvider.logmsg(ex.Message);
 
-            return Json(_articleService.AddOrUpdateArticle(articleVM));
+            }
+            return Json(articleVM);
         }
         public IActionResult DeleteArticle(int id)
         {
-            var list = _articleService.DeleteArticle(id);
-            return Json(list);
+            try
+            {
+                var list = _articleService.DeleteArticle(id);
+                return Json(list);
+            }
+            catch (Exception ex)
+            {
+                _loggerProvider.logmsg(ex.Message);
+
+            }
+            return Json(id);
         }
     }
 }

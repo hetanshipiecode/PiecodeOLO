@@ -10,6 +10,7 @@ namespace DishoutOLO.Service
     {
         private IRepository<Article> _articleRepository;
         private readonly IMapper _mapper;
+        
 
         public ArticleService(IRepository<Article> articleRepository, IMapper mapper)
         {
@@ -171,7 +172,7 @@ namespace DishoutOLO.Service
             }
             catch (Exception ex)
             {
-                return new AddArticleModel();
+                throw ex;
             }
 
         }

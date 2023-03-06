@@ -24,8 +24,9 @@ namespace DishoutOLO.ViewModel
 
 
     }
-    public class ListItemModel
-    {
+      public class ListItemModel
+
+      {
         public int Id { get; set; }
         public string CategoryName { get; set; }
 

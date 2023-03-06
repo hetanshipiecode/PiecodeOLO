@@ -19,13 +19,13 @@ namespace DishoutOLO.Service
             _mapper = mapper;
         }
 
-        public DishoutOLOResponseModel AddOrUpdateMenu(AddMenuModel data,string imgPath="")
+        public DishoutOLOResponseModel AddOrUpdateMenu(AddMenuModel data, string imgPath = "")
         {
             try
             {
                 var Menuresponse = _menuRepository.GetAllAsQuerable().WhereIf(data.Id > 0, x => x.Id != data.Id).FirstOrDefault(x => x.IsActive && (x.MenuName.ToLower() == data.MenuName.ToLower()));
 
-                    var response = new DishoutOLOResponseModel();
+                var response = new DishoutOLOResponseModel();
 
                 if (Menuresponse != null)
                 {
@@ -76,7 +76,7 @@ namespace DishoutOLO.Service
                     _menuRepository.SaveChanges();
                 }
 
-                return new DishoutOLOResponseModel { IsSuccess = true,Data = chk.Image, Message = string.Format(Constants.DeletedSuccessfully, "Menu") };
+                return new DishoutOLOResponseModel { IsSuccess = true, Data = chk.Image, Message = string.Format(Constants.DeletedSuccessfully, "Menu") };
             }
             catch (Exception ex)
             {
@@ -89,50 +89,41 @@ namespace DishoutOLO.Service
         {
             try
             {
-                var menu = _menuRepository.GetListByPredicate(x => x.IsActive == true && x.Id == Id
-                                     )
-                                     .Select(y => new ListMenuModel()
-                                     {
-                                         Id = y.Id,
-                                         MenuName = y.MenuName,
-                                         MenuPrice = y.MenuPrice,
-                                         CategoryId = y.CategoryId,
-                                         Image = y.Image,
-                                         IsActive = y.IsActive,
-                                         CategoryName = y.CategoryName
-                                     }
-                                     ).FirstOrDefault();
+                var menu = _menuRepository.GetListByPredicate(x => x.IsActive == true && x.Id == Id).Select(y => new ListMenuModel()
+                {
+                Id = y.Id,
+                MenuName = y.MenuName,
+                MenuPrice = y.MenuPrice,
+                CategoryId = y.CategoryId,
+                Image = y.Image,
+                IsActive = y.IsActive,
+                CategoryName = y.CategoryName
+                }).FirstOrDefault();
+                
+                if (menu != null)
+                {
+                    AddMenuModel obj = new AddMenuModel();
+                    obj.Id = menu.Id;
+                    obj.MenuName = menu.MenuName;
+                    obj.MenuPrice = menu.MenuPrice;
+                    obj.IsActive = menu.IsActive;
+                    obj.CategoryId = menu.CategoryId;
+                    obj.Image = menu.Image;
 
-
-                                         if (menu != null)
-                                         {
-                                            AddMenuModel obj = new AddMenuModel();
-                                            obj.Id = menu.Id;
-                                            obj.MenuName = menu.MenuName;
-                                            obj.MenuPrice = menu.MenuPrice;
-                                            obj.IsActive = menu.IsActive;
-                                            obj.CategoryId = menu.CategoryId;
-                                            obj.Image = menu.Image;
-
-                                          return obj;
-                                         }
-                                            return new AddMenuModel();
-                                            }
-                                                catch (Exception ex)
-                                            {
-                                                return new AddMenuModel();
-                                            }
+                    return obj;
+                }
+                return new AddMenuModel();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
         }
         public DataTableFilterModel GetMenuList(DataTableFilterModel filter)
         {
             try
             {
-                //var data = _menuRepository.GetListByPredicate(x => x.IsActive == true
-                //                     )
-                //                     .Select(y => new ListMenuModel()
-                //                     { Id = y.Id, MenuName = y.MenuName, MenuPrice = y.MenuPrice, CategoryId = y.CategoryId, Image = y.Image, IsActive = y.IsActive }
-                //                     ).Distinct().OrderByDescending(x => x.Id).AsEnumerable();
 
                 var data = (from ct in _categoryRepository.GetAll()
                             join mn in _menuRepository.GetAll() on

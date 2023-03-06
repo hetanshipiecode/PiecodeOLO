@@ -64,10 +64,7 @@ function loadAllMenu() {
                     var imgPath = '/Content/Menu/' + full.image;
                     return "<img src=" + imgPath +" >";
                 }   
-                    
-              
             },
-
             {
                 orderable: false,
                 "render": function (data, type, full, meta) {

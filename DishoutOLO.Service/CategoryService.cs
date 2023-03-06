@@ -185,7 +185,7 @@ namespace DishoutOLO.Service
             }
             catch (Exception ex)
             {
-                return new AddCategoryModel();
+                throw ex;
             }
 
         }

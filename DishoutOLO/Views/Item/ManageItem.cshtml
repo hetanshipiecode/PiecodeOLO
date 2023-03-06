@@ -1,11 +1,11 @@
 ﻿@model DishoutOLO.ViewModel.AddItemModel
- 
+
 <div class="row">
 
     <div class="col-xl-8 order-xl-3 ">
         <div class="card">
             <form id="myForm" action="javascript:;">
-                @Html.HiddenFor(mode=>mode.Id)  
+                @Html.HiddenFor(mode=>mode.Id)
 
                 <div class="card-header">
                     <div class="row align-items-center">
@@ -67,7 +67,7 @@
                                 <label>
                                     IsCombo <span style="color:red;">*</span>
                                 </label>
-                                @if (Model != null &&   Model.IsCombo)
+                                @if (Model != null && Model.IsCombo)
                                 {
                                     <span class="ml-3"> @Html.CheckBoxFor(mode=>mode.IsCombo,new {@checked="checked"})    </span>
                                 }

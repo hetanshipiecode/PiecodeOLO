@@ -179,7 +179,7 @@ namespace DishoutOLO.Service
             }
             catch (Exception ex)
             {
-                return filter;
+                return filter;                
             }
 
         }
@@ -224,7 +224,7 @@ namespace DishoutOLO.Service
             }
             catch (Exception ex)
             {
-                return new AddItemModel();
+                throw ex;
             }
 
         }
