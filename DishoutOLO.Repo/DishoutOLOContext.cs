@@ -15,5 +15,7 @@ namespace DishoutOLO.Repo
 
         public DbSet<Item> Items { get; set; }
         public DbSet<Article> Articles { get; set; }
+
+        public DbSet<Customer> Customers { get; set; }  
     }
 }

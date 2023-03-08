@@ -8,9 +8,15 @@
     @RenderSection("HeadScripts",required:false)
 
 
-
-    <link href="~/img/AdminLTELogo.png" rel="icon" type="image/png" />
-
+    <style>
+        .brand-image {
+            height: 13vh;
+            width: 75%;
+            margin-left: 27px;
+            margin-top: -10%;
+        }
+    </style>
+  
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
     <!-- Site wrapper -->
@@ -63,8 +69,8 @@
                              with font-awesome or any other icon font library -->
                         <li class="nav-item">
                             
-                            <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-                            <span class="brand-text font-weight-light">DishoutOLO</span>
+                            <img src="./img/DS-removebg-preview.png" alt="DishoutOLO Logo" class="brand-image">
+                            
                         
                        </li>
                         <li class="nav-item">
@@ -102,6 +108,14 @@
                             </a>
                         </li>
 
+                         <li class="nav-item">
+                            <a href="/Customer/Index" class="nav-link">
+                                <i class="nav-icon fas fa-user"></i>
+                                <p>
+                                   Customer
+                                </p>
+                            </a>
+                        </li>
                         
 
                     </ul>

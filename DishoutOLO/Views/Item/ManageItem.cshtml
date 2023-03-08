@@ -21,9 +21,12 @@
                             <div class="form-group">
                                 <label>
                                     Item Name
-                                </label>
-                                @Html.Editor("ItemName", new { htmlAttributes = new { @class = "form-control  ", @placeholder = "Item Name" } })
+                                 </label>
+                                @Html.Editor("ItemName", new { htmlAttributes = new { @class = "form-control  required", @placeholder = "Item Name" } })
+                              
                             </div>
+
+                   
                             <div class="col-md-12">
 
                                 @if (Model.IsVeg && Model != null)
@@ -33,10 +36,11 @@
                                             Veg/Non-Veg <span style="color:red;">*</span>
                                         </label>
 
-                                        <span class="ml-3"> @Html.RadioButton("Veg","Veg",new {@checked="checked"})</span>
-                                        <label class="ml-1">
+                                         <label>
+                                            @Html.RadioButton("Veg","Veg",new {@checked="checked"})
                                             Veg
                                         </label>
+                                     
 
                                         @Html.RadioButton("Veg","Non-Veg")
                                         <label class="ml-1">
@@ -107,7 +111,7 @@
                                         <div class="col-md-6">
                                             @Html.Editor("TaxName", new { htmlAttributes = new { @class = "form-control TaxName1        " } })
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-6">  
                                             @Html.Editor("TaxName", new { htmlAttributes = new { @class = "form-control TaxName1   ",  @type="number"} })
                                         </div>
                                     </div>
@@ -160,7 +164,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.CategoryId,new {@class="form-control-label"})
-                                    @Html.DropDownListFor(f=>f.CategoryId, ViewBag.CategoryList as SelectList, "---SELECT---", new { @class = "form-control " })
+                                    @Html.DropDownListFor(f=>f.CategoryId, ViewBag.CategoryList as SelectList, "---SELECT---", new { @class = "form-control required" })
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -240,13 +244,13 @@
                                             <label>
                                                 Item Description
                                             </label>
-                                            @Html.TextArea("ItemDescription",  new { @class = "form-control" })
+                                            @Html.TextArea("ItemDescription",  new { @class = "form-control required" })
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             @Html.LabelFor(model => model.ItemImage,new {@class="form-control-label"})
-                                            <input type="file" name="file" id="itemId" />
+                                            <input type="file" name="file" id="itemId" class="required" />
 
                                         </div>
                                     </div>

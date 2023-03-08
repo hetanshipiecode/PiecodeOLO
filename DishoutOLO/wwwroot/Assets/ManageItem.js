@@ -57,9 +57,7 @@
                 }
             });
         }
-        else {
-            alert("retval not available");
-        }
+      
     })
 });
 

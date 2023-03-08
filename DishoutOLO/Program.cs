@@ -24,6 +24,8 @@ builder.Services.AddScoped<IitemService, ItemService>();
 builder.Services.AddScoped<IItemRepositrory, ItemRepository>();
 builder.Services.AddScoped<IArticleService, ArticleService>();
 builder.Services.AddScoped<IArticleRepository, ArticleRepository>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();    
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<LoggerProvider>();
 
 

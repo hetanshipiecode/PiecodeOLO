@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DishoutOLO.Repo.Migrations
 {
     [DbContext(typeof(DishoutOLOContext))]
-    [Migration("20230303105208_testing")]
-    partial class testing
+    [Migration("20230308063807_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,42 @@ namespace DishoutOLO.Repo.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("DishoutOLO.Data.Article", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ArticleDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ArticleName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("ModifiedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Articles");
+                });
 
             modelBuilder.Entity("DishoutOLO.Data.Category", b =>
                 {
@@ -90,7 +126,6 @@ namespace DishoutOLO.Repo.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("ItemDescription")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ItemImage")
@@ -102,7 +137,6 @@ namespace DishoutOLO.Repo.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ItemsAvailable")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("ModifiedBy")
@@ -112,7 +146,6 @@ namespace DishoutOLO.Repo.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("TaxName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TaxPercentage")
