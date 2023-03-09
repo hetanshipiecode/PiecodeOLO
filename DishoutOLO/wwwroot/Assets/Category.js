@@ -7,6 +7,7 @@ $("#categoryTbl").on("click", "a#btn-delete", function () {
     $('#deleteModal').data('id', id).modal('show');
     $('#deleteModal').modal('show');
 });
+
 $('#delete-btn').click(function () {
     var id = $('#deleteModal').data('id');
     $.ajax({
@@ -57,7 +58,7 @@ function loadAllCategory() {
                              </a>
                              <a href="javascript:void(0)" id="btn-delete" data-id="`+ full.id + `" class="btn btn-danger btn-sm" title="Delete">
                                     <i class="fa fa-trash"></i>
-                             </a>`;
+                             </a>`; 
                 }
             }
 
