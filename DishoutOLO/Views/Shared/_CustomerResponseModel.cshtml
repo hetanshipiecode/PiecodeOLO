@@ -9,12 +9,24 @@
             <div class="modal-body text-center" id="active">
                 <h4 style="display: block;">Are You Sure You Want active?</h4>
             </div>
-            <div class="modal-body text-center" id="deactive">
+          <div class="modal-footer" style="text-align:center !important">
+                <button class="btn btn-default" tabindex="2" data-dismiss="modal">No, Let me check</button>
+                <button class="btn btn-danger" id="btn-active">Yes, Update Now!</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="deactivemodel" data-custom-tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body text-center" id="deactive">
                 <h4 style="display: block;">Are You Sure You Want deactive?</h4>
             </div>
             <div class="modal-footer" style="text-align:center !important">
                 <button class="btn btn-default" tabindex="2" data-dismiss="modal">No, Let me check</button>
-                <button class="btn btn-danger" id="active-btn">Yes, Update Now!</button>
+                <button class="btn btn-danger" id="btn-deactive">Yes, Update Now!</button>
             </div>
         </div>
     </div>

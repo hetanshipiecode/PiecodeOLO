@@ -11,16 +11,18 @@ namespace DishoutOLO.ViewModel
         public string CategoryName { get; set; }
         [DisplayName("Category")]
 
-        public int? CategoryId { get; set; }
+        public int CategoryId { get; set; }
         public string ItemName { get; set; }
-       
-        public string ItemImage { get; set; }
+        
+        
         [DisplayName("Item Image")]
+        public string ItemImage { get; set; }
 
         public IFormFile File { get; set; }
         public bool IsCombo { get; set; }
         public bool IsVeg { get; set; }
         public bool IsTax { get; set; }
+        public bool IsActive { get; set; }
 
         public string ItemDescription { get; set; }
 
@@ -31,13 +33,14 @@ namespace DishoutOLO.ViewModel
       {
         public int Id { get; set; }
         public string CategoryName { get; set; }
+        [DisplayName("Category")]
 
         public int CategoryId { get; set; }
 
         public string ItemName { get; set; }
         public string ItemImage { get; set; }
 
-        //public IFormFile File { get; set; }
+        public IFormFile File { get; set; }
         public bool IsCombo { get; set; }
         public bool IsActive { get; set; }
         public bool IsVeg { get; set; }
@@ -51,7 +54,7 @@ namespace DishoutOLO.ViewModel
             public int Id { get; set; }
             public string CategoryName { get; set; }
 
-            public int? CategoryId { get; set; }
+            public int CategoryId { get; set; }
 
             public string ItemName { get; set; }
             [Required]
@@ -60,6 +63,10 @@ namespace DishoutOLO.ViewModel
             public IFormFile File { get; set; }
             public bool IsCombo { get; set; }
             public string ItemDescription { get; set; }
+
+            public bool IsVeg { get; set; }
+            public bool IsTax { get; set; }
+            public bool IsActive { get; set; }
 
         }
 

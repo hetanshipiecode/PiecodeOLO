@@ -31,7 +31,7 @@ namespace DishoutOLO.Controllers
         {
             try
             {
-                var list = _categoryService.GetCategoryList(filter);
+                DataTableFilterModel list = _categoryService.GetCategoryList(filter);
                 return Json(list);
             }
             catch (Exception ex)
@@ -44,13 +44,13 @@ namespace DishoutOLO.Controllers
         {
             try
             {
-                _categoryService.GetCategory(id);
+              
             }
             catch (Exception ex)
             {
                 _loggerProvider.logmsg(ex.Message);
             }
-            return View("ManageCategory");
+            return View("ManageCategory", _categoryService.GetCategory(id));
         }
 
 

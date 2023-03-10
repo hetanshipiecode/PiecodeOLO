@@ -11,13 +11,22 @@ namespace DishoutOLO.Service
 {   
     public class CustomerService:ICustomerService
     {
+        #region Declarations
         private IRepository<Customer> _customerRepository;
 
+        #endregion
+
+
+        #region Constructor
         public CustomerService(IRepository<Customer> customerRepository)
         {
             _customerRepository = customerRepository;
-            
+
         }
+        #endregion
+
+
+        #region Get Methods
         public DataTableFilterModel GetCustomerList(DataTableFilterModel filter)
         {
             try
@@ -26,8 +35,16 @@ namespace DishoutOLO.Service
                 var data = _customerRepository.GetListByPredicate(x => x.IsActive == true
                                       )
                                       .Select(y => new ListCustomerModel()
-                                      { Id = y.Id, FirstName = y.FirstName, IsActive = y.IsActive,LastName=y.LastName,
-                                          Address1=y.Address1,Address2=y.Address2,Email=y.Email,Phone=y.Phone }
+                                      {
+                                          Id = y.Id,
+                                          FirstName = y.FirstName,
+                                          IsActive = y.IsActive,
+                                          LastName = y.LastName,
+                                          Address1 = y.Address1,
+                                          Address2 = y.Address2,
+                                          Email = y.Email,
+                                          Phone = y.Phone
+                                      }
                                       ).Distinct().OrderByDescending(x => x.Id).AsEnumerable();
 
 
@@ -90,5 +107,6 @@ namespace DishoutOLO.Service
 
         }
 
+        #endregion
     }
 }

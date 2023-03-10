@@ -74,15 +74,14 @@ namespace DishoutOLO.Controllers
         {
             try
             {
-                ViewBag.CategoryList = new SelectList((IList)_categoryService.GetAllCategories().Data, "Id", "CategoryName");
-                var f = _ItemService.GetItem(id);
+                ViewBag.CategoryList = new SelectList((IList)_categoryService.GetAllCategories().Data, "Id", "CategoryName",id);
             }
             catch (Exception ex)
             {
                 _loggerProvider.logmsg(ex.Message);
 
             }
-            return View("ManageItem", _ItemService.GetItem(id));
+            return View("ManageItem",_ItemService.GetItem(id));
 
         }
         public JsonResult AddOrUpdateItem(AddItemModel itemVM, IFormFile file)
@@ -111,9 +110,9 @@ namespace DishoutOLO.Controllers
         public IActionResult DeleteItem(int id)
         {
             try
-            {
+                {
                 var list = _ItemService.DeleteItem(id);
-                return View(list);
+                return Json(id);
             }
             catch (Exception ex)
             {

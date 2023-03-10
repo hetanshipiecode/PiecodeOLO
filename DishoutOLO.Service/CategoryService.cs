@@ -9,28 +9,33 @@ namespace DishoutOLO.Service
 {
     public class CategoryService : ICategoryService
     {
+        #region Declarations
         private IRepository<Category> _categoryRepository;
         private readonly IMapper _mapper;
+        #endregion
 
-        public CategoryService(IRepository<Category> categoryRepository,IMapper mapper)
+        #region Constructor
+        public CategoryService(IRepository<Category> categoryRepository, IMapper mapper)
         {
             _categoryRepository = categoryRepository;
             _mapper = mapper;
         }
+        #endregion
 
+        #region Crud Methods
         public DishoutOLOResponseModel AddOrUpdateCategory(AddCategoryModel data)
         {
             try
             {
-                var categoryresponse = _categoryRepository.GetAllAsQuerable().FirstOrDefault(x => x.IsActive == false && (x.CategoryName.ToLower() == data.CategoryName.ToLower()));
-                var response = new DishoutOLOResponseModel();
+                Category category = _categoryRepository.GetAllAsQuerable().FirstOrDefault(x => x.IsActive == false && (x.CategoryName.ToLower() == data.CategoryName.ToLower()));
+                DishoutOLOResponseModel response = new DishoutOLOResponseModel();
 
-                if (categoryresponse != null)
+                if (category != null)
                 {
                     response.IsSuccess = false;
                     response.Status = 400;
                     response.Errors = new List<ErrorDet>();
-                    if (categoryresponse.CategoryName.ToLower() == data.CategoryName.ToLower())
+                    if (category.CategoryName.ToLower() == data.CategoryName.ToLower())
                     {
                         response.Errors.Add(new ErrorDet() { ErrorField = "CategoryName", ErrorDescription = "Category already exist" });
                     }
@@ -45,11 +50,11 @@ namespace DishoutOLO.Service
                 }
                 else
                 {
-                    Category chk = _categoryRepository.GetByPredicate(x => x.Id == data.Id && x.IsActive);
-                    DateTime createdDt = chk.CreationDate; bool isActive = chk.IsActive;
-                    chk = _mapper.Map<AddCategoryModel, Category>(data);
-                    chk.ModifiedDate = DateTime.Now; chk.CreationDate = createdDt;chk.IsActive = isActive;
-                    _categoryRepository.Update(chk);
+                    Category categoryModify = _categoryRepository.GetByPredicate(x => x.Id == data.Id && x.IsActive);
+                    DateTime createdDt = categoryModify.CreationDate; bool isActive = categoryModify.IsActive;
+                    categoryModify = _mapper.Map<AddCategoryModel, Category>(data);
+                    categoryModify.ModifiedDate = DateTime.Now; categoryModify.CreationDate = createdDt; categoryModify.IsActive = isActive;
+                    _categoryRepository.Update(categoryModify);
                 }
                 return new DishoutOLOResponseModel() { IsSuccess = true, Message = data.Id == 0 ? string.Format(Constants.AddedSuccessfully, "category") : string.Format(Constants.UpdatedSuccessfully, "category") };
             }
@@ -63,12 +68,12 @@ namespace DishoutOLO.Service
         {
             try
             {
-                Category chk = _categoryRepository.GetByPredicate(x => x.Id == data);
+                Category category = _categoryRepository.GetByPredicate(x => x.Id == data);
 
-                if (chk != null)
+                if (category != null)
                 {
-                    chk.IsActive = false;
-                    _categoryRepository.Update(chk);
+                    category.IsActive = false;
+                    _categoryRepository.Update(category);
                     _categoryRepository.SaveChanges();
                 }
 
@@ -78,14 +83,15 @@ namespace DishoutOLO.Service
             {
                 return new DishoutOLOResponseModel { IsSuccess = false, Message = ex.Message };
             }
-        }
+        } 
+        #endregion
 
-
+        #region Get methods
         public DataTableFilterModel GetCategoryList(DataTableFilterModel filter)
         {
             try
             {
-                var data = _categoryRepository.GetListByPredicate(x => x.IsActive == true
+                IEnumerable<ListCategoryModel> data = _categoryRepository.GetListByPredicate(x => x.IsActive == true
                                      )
                                      .Select(y => new ListCategoryModel()
                                      { Id = y.Id, CategoryName = y.CategoryName, IsActive = y.IsActive }
@@ -109,7 +115,7 @@ namespace DishoutOLO.Service
                         {
                             if (sortColumn.Length > 0)
                             {
-                                sortColumn= sortColumn.First().ToString().ToUpper() + sortColumn.Substring(1);
+                                sortColumn = sortColumn.First().ToString().ToUpper() + sortColumn.Substring(1);
                                 if (sortColumnDirection == "asc")
                                 {
 
@@ -154,8 +160,8 @@ namespace DishoutOLO.Service
         {
             try
             {
-                return new DishoutOLOResponseModel() { IsSuccess = true, Data = _categoryRepository.GetAll().Where(x=>x.IsActive).ToList() };
-                
+                return new DishoutOLOResponseModel() { IsSuccess = true, Data = _categoryRepository.GetAll().Where(x => x.IsActive).ToList() };
+
             }
             catch (Exception)
             {
@@ -168,7 +174,7 @@ namespace DishoutOLO.Service
         {
             try
             {
-                var category = _categoryRepository.GetListByPredicate(x => x.IsActive == true && x.Id == Id
+               ListCategoryModel category = _categoryRepository.GetListByPredicate(x => x.IsActive == true && x.Id == Id
                                      )
                                      .Select(y => new ListCategoryModel()
                                      { Id = y.Id, CategoryName = y.CategoryName, IsActive = y.IsActive }
@@ -188,7 +194,8 @@ namespace DishoutOLO.Service
                 throw ex;
             }
 
-        }
+        } 
+        #endregion
     }
 }
 

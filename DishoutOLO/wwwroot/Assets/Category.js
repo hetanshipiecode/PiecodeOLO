@@ -17,6 +17,7 @@ $('#delete-btn').click(function () {
         success: function (response) {
             if (!response.isSuccess) {
                 $('#deleteModal').modal('hide');
+                table.ajax.reload()
             }
             else {
                 $('#deleteModal').modal('hide');

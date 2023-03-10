@@ -54,9 +54,10 @@ label.success {
 
 .brand-image {
     opacity: .8;
-    height: 27vh;
-    width: 75%;
-    margin-left: 27px;
+    height: 20vh;
+    width: 80%;
+    margin-left: 20px;
+    margin-top: -25px;
 }
 .field-validation-error {
     color: red;

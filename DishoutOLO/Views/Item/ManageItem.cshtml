@@ -1,4 +1,12 @@
 ﻿@model DishoutOLO.ViewModel.AddItemModel
+@{
+    //var flag = false;
+    //if (!string.IsNullOrEmpty(Model.CategoryName))
+    //{
+    //    flag = true;
+    //}
+
+}
 
 <div class="row">
 
@@ -164,10 +172,14 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.CategoryId,new {@class="form-control-label"})
-                                    @Html.DropDownListFor(f=>f.CategoryId, ViewBag.CategoryList as SelectList, "---SELECT---", new { @class = "form-control required" })
+                                    @Html.DropDownListFor(f=>f.CategoryId, ViewBag.CategoryList as SelectList,"---SELECT-----", new { @class = "form-control required" })
+
+                                                   
+
                                 </div>
                             </div>
                             <div class="col-md-12">
+
                                 <div class="form-group">
                                     <label>
                                         Choose Choices <span style="color:red;">*</span>
@@ -244,13 +256,13 @@
                                             <label>
                                                 Item Description
                                             </label>
-                                            @Html.TextArea("Item Description",  new { @class = "form-control required" })
+                                            @Html.TextArea("ItemDescription",new { @class = "form-control required" })
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             @Html.LabelFor(model => model.ItemImage,new {@class="form-control-label"})
-                                            <input type="file" name="file" id="itemId" class="required" />
+                                            <input type="file" name="file" id="itemId"  class="required" />
 
                                         </div>
                                     </div>

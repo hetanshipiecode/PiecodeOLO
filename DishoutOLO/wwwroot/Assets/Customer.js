@@ -1,21 +1,21 @@
 ﻿var table;
 $("document").ready(function () {
     loadAllCustomer();
+
+    $('#btn-deactive').on('click', function () {
+        $('#deactivemodel').modal('toggle');
+        toastr.success('Status Has Been Changed!')
+    })
+    $('#btn-active').on('click', function () {
+        $('#activemodel').modal('toggle');
+        toastr.success('Status Has Been Changed!')
+    })
 });
-
-
-
-
-
-
-
-
 
 
 function loadAllCustomer() {
 
     var url = "/Customer/GetAllCustomer"
-
     table = $("#customerTbl").DataTable({
 
         "searching": true,
@@ -51,20 +51,31 @@ function loadAllCustomer() {
                 orderable: false,
                 "render": function () {
 
-                    return ` <input type="checkbox" name="option" id="back">
-                                             
-                     
-`
+                    return ` <input type="checkbox" name="option" id="back">`
+                                                               
 
                 }
             },
 
         ],
+        "fnDrawCallback": function () {
+
+            $('#back').on('change', function () {
+                if ($(this).is(":checked")) {
+                    $('#deactivemodel').modal('toggle');
+                      
+                }
+                else {
+                    $('#activemodel').modal('toggle');
+                }
+            })
+
+            
+            
+        }
 
     }); 
-
-
-        
+         
     
 
 }

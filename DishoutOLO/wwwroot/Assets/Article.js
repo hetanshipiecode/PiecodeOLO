@@ -33,9 +33,8 @@ $('#delete-btn').click(function () {
 
 
 function loadAllArticles() {
-    debugger
+    
     var url = "/Article/GetAllArticle"
-
     table = $("#articleTbl").DataTable({
 
         "searching": true,
