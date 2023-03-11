@@ -87,7 +87,7 @@ namespace DishoutOLO.Service
             try
             {
                 Item item = _itemRepository.GetByPredicate(x => x.Id == data);
-
+                    
                 if (item != null)
                 {
                     item.IsActive = false;

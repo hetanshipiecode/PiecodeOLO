@@ -6,11 +6,10 @@
         var retval = true;
         $("#myForm .required").each(function () {
             if (!$(this).val()) {
-                $(this).addClass("error");
-                retval = false;
+            retval = false;
             }
             else {
-                $(this).removeClass("error");
+            $(this).removeClass("error");
             }
         });
       

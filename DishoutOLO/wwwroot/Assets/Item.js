@@ -16,7 +16,6 @@ $('#delete-btn').click(function () {
         url: "/Item/DeleteItem",
         data: { id: id },
         success: function (response) {
-            console.log(id);
             if (!response.isSuccess) {
                 $('#deleteModal').modal('hide');
                 table.ajax.reload()

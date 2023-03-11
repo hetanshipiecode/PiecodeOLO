@@ -1,20 +1,10 @@
 ﻿@model DishoutOLO.ViewModel.AddItemModel
-@{
-    //var flag = false;
-    //if (!string.IsNullOrEmpty(Model.CategoryName))
-    //{
-    //    flag = true;
-    //}
-
-}
 
 <div class="row">
-
     <div class="col-xl-8 order-xl-3 ">
         <div class="card">
             <form id="myForm" action="javascript:;">
                 @Html.HiddenFor(mode=>mode.Id)
-
                 <div class="card-header">
                     <div class="row align-items-center">
                         <div class="col-12">
@@ -22,35 +12,27 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="card-body">
                     <div class="pl-lg-4">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>
-                                    Item Name
-                                 </label>
+                                
+                                @Html.Label("Item Name", null,htmlAttributes: new { @class = "ml-1" })
+
                                 @Html.Editor("ItemName", new { htmlAttributes = new { @class = "form-control  required", @placeholder = "Item Name" } })
                               
                             </div>
-
-                   
+                                          
                             <div class="col-md-12">
-
                                 @if (Model.IsVeg && Model != null)
                                 {
                                     <div class="form-group">
-                                        <label>
-                                            Veg/Non-Veg <span style="color:red;">*</span>
+                                         @Html.Label("Veg/Non-Veg", null,htmlAttributes: new { @class = "ml-1" })
+                                         @Html.RadioButton("Veg","Veg",new {@checked="checked"})
+                                         <label>  
+                                         Veg
                                         </label>
-
-                                         <label>
-                                            @Html.RadioButton("Veg","Veg",new {@checked="checked"})
-                                            Veg
-                                        </label>
-                                     
-
-                                        @Html.RadioButton("Veg","Non-Veg")
+                                       @Html.RadioButton("Veg","Non-Veg")
                                         <label class="ml-1">
                                             Non-Veg
                                         </label>
@@ -59,9 +41,7 @@
                                 else
                                 {
                                     <div class="form-group">
-                                        <label>
-                                            Veg/Non-Veg <span style="color:red;">*</span>
-                                        </label>
+                                        @Html.Label("Veg/Non-Veg", null,htmlAttributes: new { @class = "ml-1 requiredLabel" } )
 
                                         <span class="ml-3"> @Html.RadioButton("Veg","Veg")</span>
                                         <label class="ml-1">
@@ -87,18 +67,10 @@
                                 {
                                     <span class="ml-3"> @Html.CheckBoxFor(mode=>mode.IsCombo)    </span>
                                 }
-
-
                             </div>
-
-
                             <div class="col-md-12">
-
-
-                                <div class="form-group">
-                                    <label>
-                                        Tax <span style="color:red;">*</span>
-                                    </label>
+                              <div class="form-group">
+                                    @Html.Label("Tax", null,htmlAttributes: new { @class = "ml-1 requiredLabel" } )
                                     <span class="ml-3"> @Html.RadioButton("Tax", "Yes",new{@id="t1"})</span>
                                     <label for="Yes" class="ml-1">
                                         Yes
@@ -112,9 +84,8 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group taxmenu">
-                                    <label>
-                                        Tax Name
-                                    </label>
+                                   @Html.Label("Tax Name", null,htmlAttributes: new { @class = "ml-1 requiredLabel" } )
+
                                     <div class="row ">
                                         <div class="col-md-6">
                                             @Html.Editor("TaxName", new { htmlAttributes = new { @class = "form-control TaxName1        " } })
@@ -127,9 +98,7 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label>
-                                        Combo Pack <span style="color:red;">*</span>
-                                    </label>
+                                    @Html.Label("Combo Pack", null,htmlAttributes: new { @class = "ml-1 requiredLabel" } )
                                     <span class="ml-3"> @Html.RadioButton("Combo", "Yes" )</span>
                                     <label for="Yes" class="ml-1">
                                         Yes
@@ -173,45 +142,38 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.CategoryId,new {@class="form-control-label"})
                                     @Html.DropDownListFor(f=>f.CategoryId, ViewBag.CategoryList as SelectList,"---SELECT-----", new { @class = "form-control required" })
-
-                                                   
-
-                                </div>
+                              </div>
                             </div>
                             <div class="col-md-12">
 
                                 <div class="form-group">
-                                    <label>
-                                        Choose Choices <span style="color:red;">*</span>
-                                    </label>
+                                    @Html.Label("Choose Choices", null,htmlAttributes: new { @class = "ml-1 requiredLabel" } )
+                                    @Html.RadioButton("Type" ,"rdYesType",new{@class="JewellerType1",@id="rdJewellerType"})
+                                    <label for="rdYesType"> Yes</label>
+                                    @Html.RadioButton("Type","rdNoType", new{@class="JewellerType1",@checked = true,@id="rdCustomerType",})
+                                    <label for="rdNoType"> No</label>
 
 
-                                    <span class="ml-3"> @Html.RadioButton("Choices",  "Yes",new {@id="c1"})</span>
-                                    <label for="Yes" class="ml-1">
-                                        Yes
-                                    </label>
-
+                                    @*<span class="ml-3"> @Html.RadioButton("Choices",  "Yes",new {@id="c1"})</span>
+                                    <label for="Yes"> Yes</label>
+                                        
                                     @Html.RadioButton("Choices", "No",new {@id="c2",@checked="checked"})
-                                    <label for="No" class="ml-1">
-                                        No
-                                    </label>
-
-
-                                </div>
+                                    <label for="No  "> No</label>*@
+                                    
+                            </div>
                             </div>
                             <div class="row">
 
                                 <div class="col-md-10">
                                     <div class="txtchoice">
-                                        <h2>Add Choise</h2>
+                                        <h2>Add Choices</h2>
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <div class="row">
                                                     <div class="col-md-3">
                                                         <span class="ml-3"> @Html.CheckBox("Extra Cheese")</span>
-                                                        <label class="ml-1">
-                                                            Extra Cheese
-                                                        </label>
+                                                     
+                                                        @Html.Label("Extra cheese", null,htmlAttributes: new { @class = "ml-1" })
                                                     </div>
                                                     <div class="col-md-3">
                                                         @Html.Editor("TaxName", new { htmlAttributes = new { @class = "form-control form-control-user  ",  @type="number"} })
@@ -224,9 +186,56 @@
                                                 <div class="row">
                                                     <div class="col-md-3">
                                                         <span class="ml-3"> @Html.CheckBox("Extra Chicken")</span>
-                                                        <label class="ml-1">
-                                                            Extra Chicken
-                                                        </label>
+                                                       @Html.Label("Extra Chicken", null,htmlAttributes: new { @class = "ml-1" })
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        @Html.Editor("TaxName", new { htmlAttributes = new { @class = "form-control  ",  @type="number"} })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div><div class="col-md-12">
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <span class="ml-3"> @Html.CheckBox("Extra Chicken")</span>
+                                                       @Html.Label("Extra Chicken", null,htmlAttributes: new { @class = "ml-1" })
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        @Html.Editor("TaxName", new { htmlAttributes = new { @class = "form-control  ",  @type="number"} })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div><div class="col-md-12">
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <span class="ml-3"> @Html.CheckBox("Extra Chicken")</span>
+                                                       @Html.Label("Extra Chicken", null,htmlAttributes: new { @class = "ml-1" })
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        @Html.Editor("TaxName", new { htmlAttributes = new { @class = "form-control  ",  @type="number"} })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div><div class="col-md-12">
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <span class="ml-3"> @Html.CheckBox("Extra Chicken")</span>
+                                                       @Html.Label("Extra Chicken", null,htmlAttributes: new { @class = "ml-1" })
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        @Html.Editor("TaxName", new { htmlAttributes = new { @class = "form-control  ",  @type="number"} })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <span class="ml-3"> @Html.CheckBox("Extra Chicken")</span>
+                                                       @Html.Label("Extra Chicken", null,htmlAttributes: new { @class = "ml-1" })
                                                     </div>
                                                     <div class="col-md-3">
                                                         @Html.Editor("TaxName", new { htmlAttributes = new { @class = "form-control  ",  @type="number"} })
@@ -239,9 +248,8 @@
                                                 <div class="row">
                                                     <div class="col-md-3">
                                                         <span class="ml-3"> @Html.CheckBox("Mayonnaise")</span>
-                                                        <label class="ml-1">
-                                                            Mayonnaise
-                                                        </label>
+                                                       @Html.Label("Mayonnaise", null,htmlAttributes: new { @class = "ml-1" })
+
                                                     </div>
                                                     <div class="col-md-3">
                                                         @Html.Editor("TaxName", new { htmlAttributes = new { @class = "form-control  ",  @type="number"} })
@@ -253,9 +261,9 @@
 
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label>
-                                                Item Description
-                                            </label>
+                                            
+                                            @Html.Label("Item Description", null,htmlAttributes: new { @class = "ml-1" })
+
                                             @Html.TextArea("ItemDescription",new { @class = "form-control required" })
                                         </div>
                                     </div>
@@ -263,7 +271,7 @@
                                         <div class="form-group">
                                             @Html.LabelFor(model => model.ItemImage,new {@class="form-control-label"})
                                             <input type="file" name="file" id="itemId"  class="required" />
-
+                                            <img id="image_upload" src="~/Content/Item/" alt="your image" />
                                         </div>
                                     </div>
                                 </div>
