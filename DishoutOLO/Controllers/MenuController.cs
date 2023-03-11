@@ -12,19 +12,28 @@ namespace DishoutOLO.Controllers
 
     public class MenuController : Controller
     {
+        #region Declarations
         private readonly IMenuService _menuService;
         private readonly ICategoryService _categoryService;
         private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly ILogger _logger;
         private LoggerProvider _loggerProvider;
+        #endregion
+
+        #region Constructor
 
         public MenuController(IMenuService menuService, ICategoryService categoryService, IWebHostEnvironment hostingEnvironment,LoggerProvider loggerProvider)
         {
             _categoryService = categoryService;
             _menuService = menuService;
             _hostingEnvironment = hostingEnvironment;
-            _loggerProvider= loggerProvider;    
+            _loggerProvider= loggerProvider;
         }
+
+        #endregion
+
+
+        #region Get Methods
         public IActionResult Index()
         {
             return View();
@@ -37,7 +46,7 @@ namespace DishoutOLO.Controllers
                 ViewBag.CategoryList = new SelectList((IList)_categoryService.GetAllCategories().Data, "Id", "CategoryName");
 
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 _loggerProvider.logmsg(ex.Message);
             }
@@ -48,7 +57,7 @@ namespace DishoutOLO.Controllers
         {
             try
             {
-                var list = _menuService.GetMenuList(filter);
+                DataTableFilterModel list = _menuService.GetMenuList(filter);
                 return Json(list);
             }
             catch (Exception ex)
@@ -69,9 +78,11 @@ namespace DishoutOLO.Controllers
                 _loggerProvider.logmsg(ex.Message);
             }
             return View("ManageMenu", _menuService.GetMenu(id));
-        }
+        } 
+        #endregion
 
 
+        #region Crud Methods
         public JsonResult AddOrUpdateMenu(AddMenuModel menuVM, IFormFile file)
         {
             try
@@ -90,13 +101,13 @@ namespace DishoutOLO.Controllers
             {
                 _loggerProvider.logmsg(ex.Message);
             }
-            return Json(_menuService.AddOrUpdateMenu(menuVM,menuVM.Id>0?menuVM.Image:string.Empty));
+            return Json(_menuService.AddOrUpdateMenu(menuVM, menuVM.Id > 0 ? menuVM.Image : string.Empty));
         }
         public IActionResult DeleteMenu(int id)
         {
             try
             {
-                var list = _menuService.DeleteMenu(id);
+                DishoutOLOResponseModel list = _menuService.DeleteMenu(id);
                 return Json(list);
             }
             catch (Exception ex)
@@ -107,6 +118,7 @@ namespace DishoutOLO.Controllers
             return Json(id);
         }
 
+        #endregion
 
     }
 }

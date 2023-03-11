@@ -13,14 +13,12 @@
                 $(this).removeClass("error");
             }
         });
-
         if (retval) {
             var data = {
                 id: $("#Id").val(),
                 CategoryName: $("#CategoryName").val(),
                 IsActive: $("#IsActive").val() == "true" ? true : false
             }
-            //StartProcess();
             $.ajax({
                 type: "POST",
                 url: "/Category/AddOrUpdateCategory",

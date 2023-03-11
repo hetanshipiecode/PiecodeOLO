@@ -7,25 +7,30 @@ namespace DishoutOLO.Controllers
 {
     public class CustomerController : Controller
     {
+        #region Declarations
         private readonly ICustomerService _customerService;
         private LoggerProvider _loggerProvider;
+        #endregion
 
+        #region Constructor
         public CustomerController(ICustomerService customerService, LoggerProvider loggerProvider)
         {
             _customerService = customerService;
             _loggerProvider = loggerProvider;
         }
+        #endregion
+
+        #region Get Methods
         public IActionResult Index()
         {
             return View();
         }
 
-
         public JsonResult GetAllCustomer(DataTableFilterModel filter)
         {
             try
             {
-                var list = _customerService.GetCustomerList(filter);
+                DataTableFilterModel list = _customerService.GetCustomerList(filter);
                 return Json(list);
             }
             catch (Exception ex)
@@ -34,5 +39,7 @@ namespace DishoutOLO.Controllers
             }
             return Json(filter);
         }
+        
+        #endregion
     }
 }

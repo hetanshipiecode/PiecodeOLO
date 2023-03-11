@@ -13,15 +13,23 @@ namespace DishoutOLO.Controllers
 {
     public class ItemController : Controller
     {
+        #region Declarations
         private readonly IitemService _ItemService;
         private readonly ICategoryService _categoryService;
         private LoggerProvider _loggerProvider;
+
+        #endregion
+
+        #region Constructor
         public ItemController(IitemService itemService, ICategoryService categoryService, LoggerProvider loggerProvider)
         {
             _ItemService = itemService;
             _categoryService = categoryService;
             _loggerProvider= loggerProvider;
         }
+        #endregion
+
+        #region Crud Methods
         public IActionResult Index()
         {
             try
@@ -51,39 +59,7 @@ namespace DishoutOLO.Controllers
             }
             return View("ManageItem", new AddItemModel());
         }
-
-        public JsonResult GetAllItem(DataTableFilterModel filter)
-        {
-            try
-            {
-                var CategoryName = Request.Form["columns[1][search][value]"].FirstOrDefault();
-                var ItemName = Request.Form["columns[2][search][value]"].FirstOrDefault();
-                filter.CategoryName = CategoryName;
-                filter.ItemName = ItemName;
-                var list = _ItemService.GetItemList(filter);
-                return Json(list);  
-            }
-            catch (Exception ex)
-            {
-                _loggerProvider.logmsg(ex.Message);
-
-            }
-            return Json(filter);
-        }
-        public ActionResult Edit(int id)
-        {
-            try
-            {
-                ViewBag.CategoryList = new SelectList((IList)_categoryService.GetAllCategories().Data, "Id", "CategoryName",id);
-            }
-            catch (Exception ex)
-            {
-                _loggerProvider.logmsg(ex.Message);
-
-            }
-            return View("ManageItem",_ItemService.GetItem(id));
-
-        }
+             
         public JsonResult AddOrUpdateItem(AddItemModel itemVM, IFormFile file)
         {
             try
@@ -95,7 +71,6 @@ namespace DishoutOLO.Controllers
                     string fileName = $"{Guid.NewGuid().ToString()}{Path.GetExtension(file.FileName)}";
                     string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Content/Item", fileName);
                     Utility.SaveFile(file, path);
-
                     itemVM.ItemImage = fileName;
                 }
             }
@@ -111,7 +86,7 @@ namespace DishoutOLO.Controllers
         {
             try
                 {
-                var list = _ItemService.DeleteItem(id);
+                DishoutOLOResponseModel list = _ItemService.DeleteItem(id);
                 return Json(id);
             }
             catch (Exception ex)
@@ -121,6 +96,47 @@ namespace DishoutOLO.Controllers
             }
             return Json(id);
         }
+
+
+        #endregion
+
+        #region Get Methods
+        public JsonResult GetAllItem(DataTableFilterModel filter)
+        {
+            try
+            {
+                var CategoryName = Request.Form["columns[1][search][value]"].FirstOrDefault();
+                var ItemName = Request.Form["columns[2][search][value]"].FirstOrDefault();
+                filter.CategoryName = CategoryName;
+                filter.ItemName = ItemName;
+                DataTableFilterModel list = _ItemService.GetItemList(filter);
+                return Json(list);
+            }
+            catch (Exception ex)
+            {
+                _loggerProvider.logmsg(ex.Message);
+
+            }
+            return Json(filter);
+        }
+        public ActionResult Edit(int id)
+        {
+            try
+            {
+                ViewBag.CategoryList = new SelectList((IList)_categoryService.GetAllCategories().Data, "Id", "CategoryName", id);
+
+            }
+
+            catch (Exception ex)
+            {
+                _loggerProvider.logmsg(ex.Message);
+
+            }
+            return View("ManageItem", _ItemService.GetItem(id));
+
+        }
        
+
+        #endregion
     }
 }

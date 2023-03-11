@@ -1,5 +1,4 @@
-﻿//const { data } = require("jquery");
-
+﻿
 var table;
 $("document").ready(function () {
     loadAllMenu();
@@ -20,12 +19,10 @@ $('#delete-btn').click(function () {
             if (!response.isSuccess) {
                 $('#deleteModal').modal('hide');
                 table.ajax.reload()
-    
-            }
+                }
             else {
                 $('#deleteModal').modal('hide');
                 table.ajax.reload()
-                //    funToastr(true, response.message);
             }
         },
         error: function (error) {

@@ -1,5 +1,4 @@
-﻿//const { data } = require("jquery");
-
+﻿
 var table;
 $("document").ready(function () {
     loadAllItem();
@@ -17,6 +16,7 @@ $('#delete-btn').click(function () {
         url: "/Item/DeleteItem",
         data: { id: id },
         success: function (response) {
+            console.log(id);
             if (!response.isSuccess) {
                 $('#deleteModal').modal('hide');
                 table.ajax.reload()
@@ -24,7 +24,6 @@ $('#delete-btn').click(function () {
             else {
                 $('#deleteModal').modal('hide');
                 table.ajax.reload()
-                //    funToastr(true, response.message);
             }
         },
         error: function (error) {
@@ -96,13 +95,14 @@ function loadAllItem() {
 $('#CategoryName').on('change', function () {
    
     table.columns(1).search($("#CategoryName option:selected").text().trim());
-    
+    table.draw();
    
 });
 
 $('#txtItemName').on('keyup', function () {
     table.columns(2).search($('#txtItemName').val().trim());
-   
+    table.draw();
+
 });
 
 

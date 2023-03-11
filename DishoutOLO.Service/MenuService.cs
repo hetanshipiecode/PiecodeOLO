@@ -135,7 +135,7 @@ namespace DishoutOLO.Service
                 IEnumerable<ListMenuModel> data = (from ct in _categoryRepository.GetAll()
                             join mn in _menuRepository.GetAll() on
                             ct.Id equals mn.CategoryId
-                            where mn.IsActive == true
+                            
                             select new ListMenuModel
 
                             {

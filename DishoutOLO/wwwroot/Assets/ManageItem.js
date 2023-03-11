@@ -44,10 +44,10 @@
                 cache: false,
                 contentType: false,
                 processData: false,
-
                 success: function (data) {
                     if (!data.isSuccess) {
                         if (data != null) {
+                            console.log(data);
                             $("#lblError").addClass("error").text(data.errors[0].errorDescription).show();
                         }
                     }

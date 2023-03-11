@@ -8,29 +8,34 @@ namespace DishoutOLO.Service
 {
     public class ArticleService : IArticleService
     {
+        #region Declarations
         private IRepository<Article> _articleRepository;
         private readonly IMapper _mapper;
-        
 
+        #endregion
+
+        #region Constructor
         public ArticleService(IRepository<Article> articleRepository, IMapper mapper)
         {
             _articleRepository = articleRepository;
             _mapper = mapper;
         }
+        #endregion
 
+        #region Crud Methods
         public DishoutOLOResponseModel AddOrUpdateArticle(AddArticleModel data)
         {
             try
             {
-                var articleResponse = _articleRepository.GetAllAsQuerable().FirstOrDefault(x => x.IsActive == false && (x.ArticleName.ToLower() == data.ArticleName.ToLower()));
-                var response = new DishoutOLOResponseModel();
+                Article Article = _articleRepository.GetAllAsQuerable().FirstOrDefault(x => x.IsActive == false && (x.ArticleName.ToLower() == data.ArticleName.ToLower()));
+                DishoutOLOResponseModel response = new DishoutOLOResponseModel();
 
-                if (articleResponse != null)
+                if (Article != null)
                 {
                     response.IsSuccess = false;
                     response.Status = 400;
                     response.Errors = new List<ErrorDet>();
-                    if (articleResponse.ArticleName.ToLower() == data.ArticleName.ToLower())
+                    if (Article.ArticleName.ToLower() == data.ArticleName.ToLower())
                     {
                         response.Errors.Add(new ErrorDet() { ErrorField = "ArticleName", ErrorDescription = "Article already exist" });
                     }
@@ -40,16 +45,16 @@ namespace DishoutOLO.Service
                 {
                     Article tblArticle = _mapper.Map<AddArticleModel, Article>(data);
                     tblArticle.CreationDate = DateTime.Now;
-                   tblArticle.IsActive = true;
+                    tblArticle.IsActive = true;
                     _articleRepository.Insert(tblArticle);
                 }
                 else
                 {
-                    Article chk = _articleRepository.GetByPredicate(x => x.Id == data.Id && x.IsActive);
-                    DateTime createdDt = chk.CreationDate; bool isActive = chk.IsActive;
-                    chk = _mapper.Map<AddArticleModel, Article>(data);
-                    chk.ModifiedDate = DateTime.Now; chk.CreationDate = createdDt; chk.IsActive = isActive;
-                    _articleRepository.Update(chk);
+                    Article article = _articleRepository.GetByPredicate(x => x.Id == data.Id && x.IsActive);
+                    DateTime createdDt = article.CreationDate; bool isActive = article.IsActive;
+                    article = _mapper.Map<AddArticleModel, Article>(data);
+                    article.ModifiedDate = DateTime.Now; article.CreationDate = createdDt; article.IsActive = isActive;
+                    _articleRepository.Update(article);
                 }
                 return new DishoutOLOResponseModel() { IsSuccess = true, Message = data.Id == 0 ? string.Format(Constants.AddedSuccessfully, "article") : string.Format(Constants.UpdatedSuccessfully, "article") };
             }
@@ -80,12 +85,13 @@ namespace DishoutOLO.Service
             }
         }
 
-
+        #endregion
+        #region Get Methods
         public DataTableFilterModel GetArticleList(DataTableFilterModel filter)
         {
             try
             {
-                var data = _articleRepository.GetListByPredicate(x => x.IsActive == true
+                IEnumerable<ListArticleModel> data = _articleRepository.GetListByPredicate(x => x.IsActive == true
                                      )
                                      .Select(y => new ListArticleModel()
                                      { Id = y.Id, ArticleName = y.ArticleName, ArticleDescription = y.ArticleDescription, IsActive = y.IsActive }
@@ -154,10 +160,10 @@ namespace DishoutOLO.Service
         {
             try
             {
-                var article = _articleRepository.GetListByPredicate(x => x.IsActive == true && x.Id == Id
+                ListArticleModel article = _articleRepository.GetListByPredicate(x => x.IsActive == true && x.Id == Id
                                      )
                                      .Select(y => new ListArticleModel()
-                                     { Id = y.Id, ArticleName = y.ArticleName,ArticleDescription = y.ArticleDescription, IsActive = y.IsActive }
+                                     { Id = y.Id, ArticleName = y.ArticleName, ArticleDescription = y.ArticleDescription, IsActive = y.IsActive }
                                      ).FirstOrDefault();
 
                 if (article != null)
@@ -175,6 +181,7 @@ namespace DishoutOLO.Service
                 throw ex;
             }
 
-        }
+        } 
+        #endregion
     }
 }

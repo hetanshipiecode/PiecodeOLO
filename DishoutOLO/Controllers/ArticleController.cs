@@ -9,13 +9,18 @@ namespace DishoutOLO.Controllers
 {
     public class ArticleController : Controller
     {
+        #region Declarations
         private readonly IArticleService _articleService;
         private LoggerProvider _loggerProvider;
+        #endregion
+        #region Constructor
         public ArticleController(IArticleService articleService,LoggerProvider loggerProvider)
         {
             _articleService = articleService;
             _loggerProvider=loggerProvider;
         }
+        #endregion
+        #region Get Methods
         public IActionResult Index()
         {
             return View();
@@ -50,8 +55,10 @@ namespace DishoutOLO.Controllers
             }
             return View("ManageArticle");
         }
+        #endregion
 
 
+        #region Crud Methods
         public JsonResult AddOrUpdateArticle(AddArticleModel articleVM)
         {
             try
@@ -69,7 +76,7 @@ namespace DishoutOLO.Controllers
         {
             try
             {
-                var list = _articleService.DeleteArticle(id);
+                DishoutOLOResponseModel list = _articleService.DeleteArticle(id);
                 return Json(list);
             }
             catch (Exception ex)
@@ -78,6 +85,7 @@ namespace DishoutOLO.Controllers
 
             }
             return Json(id);
-        }
+        } 
+        #endregion
     }
 }

@@ -55,14 +55,15 @@ namespace DishoutOLO.Service
                     {
 
                         Item tblItem = _mapper.Map<AddItemModel, Item>(data);
-                            tblItem.CreationDate = DateTime.Now;
+                        tblItem.CreationDate = DateTime.Now;
                         tblItem.IsActive = true;
                         _itemRepository.Insert(tblItem);
                     }
                     else
                     {
                         Item item = _itemRepository.GetByPredicate(x => x.Id == data.Id && x.IsActive);
-                        DateTime createdDt = item.CreationDate; bool isActive = item.IsActive;
+                        DateTime createdDt = item.CreationDate;
+                        bool isActive = item.IsActive;
                         item = _mapper.Map<AddItemModel, Item>(data);
                         item.ModifiedDate = DateTime.Now; item.CreationDate = createdDt; item.IsActive = isActive;
                         _itemRepository.Update(item);
@@ -94,7 +95,7 @@ namespace DishoutOLO.Service
                     _itemRepository.SaveChanges();
                 }
 
-                return new DishoutOLOResponseModel { IsSuccess = true, Data = item.ItemImage, Message = string.Format(Constants.DeletedSuccessfully, "Menu") };
+                return new DishoutOLOResponseModel { IsSuccess = true, Data = item.ItemImage, Message = string.Format(Constants.DeletedSuccessfully, "Item") };
             }
             catch (Exception ex)
             {
@@ -109,13 +110,12 @@ namespace DishoutOLO.Service
         {
             try
             {
-
                 IEnumerable<ListItemModel> data = (from ct in _categoryRepository.GetAll()
                                                    join it in _itemRepository.GetAll() on
                                                    ct.Id equals it.CategoryId
+                                                   where it.IsActive =true
                                                   
                                                    select new ListItemModel
-
                                                    {
                                                        CategoryName = ct.CategoryName,
                                                        ItemName = it.ItemName,
@@ -213,7 +213,7 @@ namespace DishoutOLO.Service
         {
             try
             {
-               ListItemModel item = _itemRepository.GetListByPredicate(x => x.IsActive == true && x.Id == Id
+               ListItemModel item = _itemRepository.GetListByPredicate(x => x.IsActive  && x.Id == Id
                                      )
                                      .Select(y => new ListItemModel()
                                      { Id = y.Id, ItemName = y.ItemName, IsCombo = y.IsCombo, IsTax = y.IsTax, IsVeg = y.IsVeg, IsActive = y.IsActive, CategoryId = y.CategoryId, ItemDescription = y.ItemDescription }
