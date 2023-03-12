@@ -1,19 +1,20 @@
-﻿
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DishoutOLO.Data
 {
-    [Table("Menu")]
-    public class Menu
+    [Table("Menus")]    
+    public class Menu:BaseEntity
     {
-        [Key]
-        public string? Menuname { get; set; }
+        public string? MenuName { get; set; }
 
-        public int? CategoryId { get; set; }
+        [ForeignKey("Category")]
+        public int CategoryId { get; set; }
+        public virtual Category Category { get; set; }
+        public int MenuPrice { get; set; }
+        public string Image { get; set; }
 
-        public int? MenuPrice { get; set; }
-
-        public string? Image { get; set; }
+        [NotMapped]
+        public string CategoryName { get; set; }    
     }
 }

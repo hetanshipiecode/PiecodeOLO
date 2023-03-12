@@ -1,19 +1,7 @@
-﻿
-
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace DishoutOLO.ViewModel
 {
-    public class CategoryModel
-    {
-        public int Id { get; set; }
-
-        public string CategoryName { get; set; }
-
-        public bool IsActive { get; set; }
-
-    }
-
     public class AddCategoryModel
     {
         public int Id { get; set; }
@@ -32,9 +20,20 @@ namespace DishoutOLO.ViewModel
         public bool IsActive { get; set; }
 
 
+        public class UpdateCategoryModel
+        {
+            public int Id { get; set; }
 
+            public string CategoryName { get; set; }
+
+            public bool IsActive { get; set; }
+
+        }
+
+        public class DeleteCategoryModel
+        {
+            public int Id { get; set; }
+        }
     }
-
-
-
 }
+

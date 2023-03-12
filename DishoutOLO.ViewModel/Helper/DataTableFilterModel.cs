@@ -37,6 +37,9 @@ namespace DishoutOLO.ViewModel.Helper
         public int CompanyId { get; set; }
         public int GuideID { get; set; }
         public Guid guId { get; set; }
+
+        public string CategoryName { get; set; }    
+        public string ItemName { get; set; }    
     }
 }
 

@@ -1,6 +1,4 @@
-﻿
-
-namespace DishoutOLO.ViewModel
+﻿namespace DishoutOLO.ViewModel
 {
     public class DishoutOLOResponseModel
     {
@@ -14,14 +12,12 @@ namespace DishoutOLO.ViewModel
 
         public int Status { get; set; }
 
-        public class ErrorDet
-        {
-            public string ErrorField { get; set; }
-            public string ErrorDescription { get; set; }
-        }
-
-
-
-
+      
     }
+    public class ErrorDet
+    {
+        public string ErrorField { get; set; }
+        public string ErrorDescription { get; set; }
+    }
+
 }

@@ -1,0 +1,46 @@
+﻿
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Customer</h3>
+                </div>
+
+
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="customerTbl" class="table table-bordered table-hover">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col" class="sort" data-sort="name">First Name</th>
+                                    <th scope="col" class="sort" data-sort="name">Last Name</th>
+                                    <th scope="col" class="sort" data-sort="name">Email</th>
+                                    <th scope="col" class="sort" data-sort="name">Address1</th>
+                                    <th scope="col" class="sort" data-sort="name">Address2</th>
+                                    <th scope="col" class="sort" data-sort="name">Phone</th>
+                                    <th scope="col" class="sort" data-sort="name">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+     
+
+        
+<partial name="_CustomerResponseModel" />
+@section Scripts {
+
+    <script src="~/Assets/Customer.js" asp-append-version="true"></script>
+
+}

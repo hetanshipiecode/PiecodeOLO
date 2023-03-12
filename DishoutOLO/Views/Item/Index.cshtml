@@ -1,0 +1,54 @@
+﻿<div class="row">
+    <div class="col-12">
+        <div class="card">
+
+            <div style="background-color:#f5f5f5; padding:20px">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>   @Html.DropDownList("CategoryName", ViewBag.CategoryList as SelectList, "---SELECT---", new { @class = "form-control " })
+
+                            <td> <input type="text" class="form-control" id="txtItemName" placeholder="Item Name" /></td>
+
+                            <td>
+                                <div class="col-lg-12  text-right" style="margin-left:560px;">
+                                    <a href="/Item/Create" class="btn btn-md btn-warning">Add Item</a>
+
+                                </div>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="itemTbl" class="table table-bordered table-hover">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col" class="sort" data-sort="name">Category </th>
+                            <th scope="col" class="sort" data-sort="name">Item Name</th>
+                            <th scope="col" class="sort" data-sort="name">Item Image</th>
+                            <th scope="col" class="sort" data-sort="name">IsCombo</th>
+
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<partial name="_CommonResponseModel" />
+
+@section Scripts {
+
+    <script src="~/Assets/Item.js" asp-append-version="true"></script>
+
+}

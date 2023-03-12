@@ -1,63 +1,64 @@
 ﻿using DishoutOLO.Data;
-using DishoutOLO.Repo;
 using DishoutOLO.Repo.Interface;
 using DishoutOLO.Service.Interface;
 using DishoutOLO.ViewModel;
 using DishoutOLO.ViewModel.Helper;
-using static DishoutOLO.ViewModel.DishoutOLOResponseModel;
-using Constants = DishoutOLO.ViewModel.Helper.Constants;
+using AutoMapper;
 
 namespace DishoutOLO.Service
 {
     public class CategoryService : ICategoryService
     {
+        #region Declarations
         private IRepository<Category> _categoryRepository;
-        public CategoryService(IRepository<Category> categoryRepository)
+        private readonly IMapper _mapper;
+        #endregion
+
+        #region Constructor
+        public CategoryService(IRepository<Category> categoryRepository, IMapper mapper)
         {
             _categoryRepository = categoryRepository;
+            _mapper = mapper;
         }
+        #endregion
 
-        public DishoutOLOResponseModel AddOrUpdateCategory(CategoryModel data)
+        #region Crud Methods
+        public DishoutOLOResponseModel AddOrUpdateCategory(AddCategoryModel data)
         {
             try
             {
-                var categoryresponse = _categoryRepository.GetAllAsQuerable().FirstOrDefault(x => x.IsActive==false && (x.CategoryName.ToLower() == data.CategoryName.ToLower()));
-                var response = new DishoutOLOResponseModel();
+                Category category = _categoryRepository.GetAllAsQuerable().FirstOrDefault(x => x.IsActive == false && (x.CategoryName.ToLower() == data.CategoryName.ToLower()));
+                DishoutOLOResponseModel response = new DishoutOLOResponseModel();
 
-                if (categoryresponse != null)
+                if (category != null)
                 {
                     response.IsSuccess = false;
                     response.Status = 400;
                     response.Errors = new List<ErrorDet>();
-                    if (categoryresponse.CategoryName.ToLower() == data.CategoryName.ToLower())
+                    if (category.CategoryName.ToLower() == data.CategoryName.ToLower())
                     {
                         response.Errors.Add(new ErrorDet() { ErrorField = "CategoryName", ErrorDescription = "Category already exist" });
                     }
 
-
                 }
-
                 if (data.Id == 0)
                 {
-                    Category tblCategory = new Category
-                    {
-                        CategoryName = data.CategoryName,
-
-
-                        IsActive = true,
-                    };
+                    Category tblCategory = _mapper.Map<AddCategoryModel, Category>(data);
+                    tblCategory.CreationDate = DateTime.Now;
+                    tblCategory.IsActive = true;
                     _categoryRepository.Insert(tblCategory);
                 }
                 else
                 {
-                    Category chk = _categoryRepository.GetByPredicate(x => x.Id == data.Id && x.IsActive);
-                    chk.Id = data.Id;
-                    chk.CategoryName = data.CategoryName;
-
+                    Category categoryModify = _categoryRepository.GetByPredicate(x => x.Id == data.Id && x.IsActive);
+                    DateTime createdDt = categoryModify.CreationDate; bool isActive = categoryModify.IsActive;
+                    categoryModify = _mapper.Map<AddCategoryModel, Category>(data);
+                    categoryModify.ModifiedDate = DateTime.Now; categoryModify.CreationDate = createdDt; categoryModify.IsActive = isActive;
+                    _categoryRepository.Update(categoryModify);
                 }
                 return new DishoutOLOResponseModel() { IsSuccess = true, Message = data.Id == 0 ? string.Format(Constants.AddedSuccessfully, "category") : string.Format(Constants.UpdatedSuccessfully, "category") };
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return new DishoutOLOResponseModel() { IsSuccess = false, Message = Constants.GetDetailError };
             }
@@ -67,12 +68,12 @@ namespace DishoutOLO.Service
         {
             try
             {
-                Category chk = _categoryRepository.GetByPredicate(x => x.Id == data);
+                Category category = _categoryRepository.GetByPredicate(x => x.Id == data);
 
-                if (chk != null)
+                if (category != null)
                 {
-                    chk.IsActive = false;
-                    _categoryRepository.Update(chk);
+                    category.IsActive = false;
+                    _categoryRepository.Update(category);
                     _categoryRepository.SaveChanges();
                 }
 
@@ -82,19 +83,56 @@ namespace DishoutOLO.Service
             {
                 return new DishoutOLOResponseModel { IsSuccess = false, Message = ex.Message };
             }
-        }
+        } 
+        #endregion
 
-
+        #region Get methods
         public DataTableFilterModel GetCategoryList(DataTableFilterModel filter)
         {
             try
             {
-                var data = _categoryRepository.GetListByPredicate(x => x.IsActive == true
+                IEnumerable<ListCategoryModel> data = _categoryRepository.GetListByPredicate(x => x.IsActive == true
                                      )
                                      .Select(y => new ListCategoryModel()
                                      { Id = y.Id, CategoryName = y.CategoryName, IsActive = y.IsActive }
                                      ).Distinct().OrderByDescending(x => x.Id).AsEnumerable();
 
+                var sortColumn = string.Empty;
+                var sortColumnDirection = string.Empty;
+                if (filter.order != null && filter.order.Count() > 0)
+                {
+                    if (filter.order.Count() == 1)
+                    {
+                        sortColumnDirection = filter.order[0].dir;
+                        if (filter.columns.Count() >= filter.order[0].column)
+                        {
+                            sortColumn = filter.columns[filter.order[0].column].data;
+                        }
+                    }
+                    if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
+                    {
+                        if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)) && data.Count() > 0)
+                        {
+                            if (sortColumn.Length > 0)
+                            {
+                                sortColumn = sortColumn.First().ToString().ToUpper() + sortColumn.Substring(1);
+                                if (sortColumnDirection == "asc")
+                                {
+
+                                    data = data.OrderByDescending(p => p.GetType()
+                                            .GetProperty(sortColumn)
+                                            .GetValue(p, null)).ToList();
+                                }
+                                else
+                                {
+                                    data = data.OrderBy(p => p.GetType()
+                                           .GetProperty(sortColumn)
+                                           .GetValue(p, null)).ToList();
+                                }
+                            }
+                        }
+                    }
+                }
 
                 var totalCount = data.Count();
                 if (!string.IsNullOrWhiteSpace(filter.search.value))
@@ -118,16 +156,25 @@ namespace DishoutOLO.Service
 
         }
 
-
-
-        public AddCategoryModel GetAddCategory(int Id)
+        public DishoutOLOResponseModel GetAllCategories()
         {
-
             try
             {
+                return new DishoutOLOResponseModel() { IsSuccess = true, Data = _categoryRepository.GetAll().Where(x => x.IsActive).ToList() };
 
+            }
+            catch (Exception)
+            {
+                return new DishoutOLOResponseModel() { IsSuccess = false, Data = null };
 
-                var category = _categoryRepository.GetListByPredicate(x => x.IsActive == true && x.Id == Id
+            }
+        }
+
+        public AddCategoryModel GetCategory(int Id)
+        {
+            try
+            {
+               ListCategoryModel category = _categoryRepository.GetListByPredicate(x => x.IsActive == true && x.Id == Id
                                      )
                                      .Select(y => new ListCategoryModel()
                                      { Id = y.Id, CategoryName = y.CategoryName, IsActive = y.IsActive }
@@ -144,13 +191,12 @@ namespace DishoutOLO.Service
             }
             catch (Exception ex)
             {
-                return new AddCategoryModel();
+                throw ex;
             }
 
-        }
+        } 
+        #endregion
     }
+}
 
-
-} 
-    
 
