@@ -45,6 +45,10 @@ namespace DishoutOLO.Controllers
             }
             return View();
         }
+        /// <summary>
+        /// Create Item
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Create()
         {
             try
@@ -59,7 +63,13 @@ namespace DishoutOLO.Controllers
             }
             return View("ManageItem", new AddItemModel());
         }
-             
+
+        /// <summary>
+        /// To add or insert Item
+        /// </summary>
+        /// <param name="itemVM"></param>
+        /// <param name="file"></param>
+        /// <returns></returns>
         public JsonResult AddOrUpdateItem(AddItemModel itemVM, IFormFile file)
         {
             try
@@ -82,12 +92,16 @@ namespace DishoutOLO.Controllers
             return Json(_ItemService.AddOrUpdateItem(itemVM));
 
         }
+        /// <summary>
+        /// Delete Item
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public IActionResult DeleteItem(int id)
         {
             try
-                {
+            {
                 DishoutOLOResponseModel list = _ItemService.DeleteItem(id);
-                return Json(id);
             }
             catch (Exception ex)
             {
@@ -96,11 +110,14 @@ namespace DishoutOLO.Controllers
             }
             return Json(id);
         }
-
-
         #endregion
 
         #region Get Methods
+        /// <summary>
+        /// Get All Item List
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
         public JsonResult GetAllItem(DataTableFilterModel filter)
         {
             try
@@ -119,6 +136,12 @@ namespace DishoutOLO.Controllers
             }
             return Json(filter);
         }
+
+        /// <summary>
+        /// go to edit page with update data 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ActionResult Edit(int id)
         {
             try

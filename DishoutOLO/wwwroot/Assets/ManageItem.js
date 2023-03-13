@@ -61,55 +61,37 @@
     })
 });
 
-function readURL(input) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            $('#image_upload').attr('src', e.target.result);
-        }
-        reader.readAsDataURL(input.files[0]);
-    }
-}
 
-$("#itemId").change(function () {
-    readURL(this);
-});
 
-$(".JewellerType1").change(function () {
-    debugger
-    var cval = $(this).val();
-    if (cval == "rdJewellerType") {
-        $(".Yes").hide();
-        $(".No").show();
-    }
-    else {
-        $(".Yes").show();
-        $(".No").hide();
-    }
-});
+
+
+
 
 
 $(document).ready(function () {
 
-    $(".taxmenu").hide();
-    $("#t1").click(function () {
-        $(".taxmenu").show();
+    $(".Taxmenu").hide();
+    $("#TaxYes").click(function () {
+        $(".Taxmenu").show();
     });
-    $("#t2").click(function () {
-        $(".taxmenu").hide();
+    $("#TaxNo").click(function () {
+        $(".Taxmenu").hide();
     });
 });
 
 $(document).ready(function () {
 
     $(".txtchoice").hide();
-    $("#c1").click(function () {
+    $("#rdYesType").click(function () {
         $(".txtchoice").show();
     });
-    $("#c2").click(function () {
+    $("#rdNoType").click(function () {
         $(".txtchoice").hide();
     });
 });
+
+
+
 
 
 

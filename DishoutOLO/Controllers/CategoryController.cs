@@ -32,6 +32,10 @@ namespace DishoutOLO.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Create Category
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Create()
         {
 
@@ -55,6 +59,12 @@ namespace DishoutOLO.Controllers
 
             return Json(categoryVM);
         }
+
+        /// <summary>
+        /// Delete Category
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public IActionResult DeleteCategory(int id)
         {
             try
@@ -71,6 +81,11 @@ namespace DishoutOLO.Controllers
         #endregion
 
         #region Get Methods
+        /// <summary>
+        /// Get All Category List
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
         public JsonResult GetAllCategory(DataTableFilterModel filter)
         {
             try
@@ -84,6 +99,11 @@ namespace DishoutOLO.Controllers
             }
             return Json(filter);
         }
+        /// <summary>
+        ///  go to edit page with update data 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ActionResult Edit(int id)
         {
             try

@@ -20,12 +20,17 @@ namespace DishoutOLO.Controllers
         }
         #endregion
 
+     
         #region Get Methods
         public IActionResult Index()
         {
             return View();
         }
-
+        /// <summary>
+        /// Get All Customer List
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
         public JsonResult GetAllCustomer(DataTableFilterModel filter)
         {
             try
