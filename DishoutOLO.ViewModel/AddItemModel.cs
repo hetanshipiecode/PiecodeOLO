@@ -13,8 +13,8 @@ namespace DishoutOLO.ViewModel
 
         public int CategoryId { get; set; }
         public string ItemName { get; set; }
-        
-        
+
+
         [DisplayName("Item Image")]
         public string ItemImage { get; set; }
 
@@ -28,9 +28,9 @@ namespace DishoutOLO.ViewModel
 
 
     }
-      public class ListItemModel
+    public class ListItemModel
 
-      {
+    {
         public int Id { get; set; }
         public string CategoryName { get; set; }
         [DisplayName("Category")]
@@ -48,33 +48,33 @@ namespace DishoutOLO.ViewModel
 
         public string ItemDescription { get; set; }
 
+    }
+    public class UpdateItemModel
+    {
+        public int Id { get; set; }
+        public string CategoryName { get; set; }
 
-        public class UpdateItemModel
-        {
-            public int Id { get; set; }
-            public string CategoryName { get; set; }
+        public int CategoryId { get; set; }
 
-            public int CategoryId { get; set; }
+        public string ItemName { get; set; }
+        [Required]
+        public string ItemImage { get; set; }
 
-            public string ItemName { get; set; }
-            [Required]
-            public string ItemImage { get; set; }
+        public IFormFile File { get; set; }
+        public bool IsCombo { get; set; }
+        public string ItemDescription { get; set; }
 
-            public IFormFile File { get; set; }
-            public bool IsCombo { get; set; }
-            public string ItemDescription { get; set; }
+        public bool IsVeg { get; set; }
+        public bool IsTax { get; set; }
+        public bool IsActive { get; set; }
 
-            public bool IsVeg { get; set; }
-            public bool IsTax { get; set; }
-            public bool IsActive { get; set; }
+    }
 
-        }
+    public class DeleteItemModel
+    {
 
-        public class DeleteItemModel
-        {
+        public int Id { get; set; }
 
-            public int Id { get; set; }
-
-        }
     }
 }
+

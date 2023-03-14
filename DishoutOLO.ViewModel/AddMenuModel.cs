@@ -1,13 +1,8 @@
-﻿
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 
 namespace DishoutOLO.ViewModel
 {
-
-
-
     public class AddMenuModel
     {
 
@@ -22,7 +17,6 @@ namespace DishoutOLO.ViewModel
         [DisplayName("Category ")]
         public int CategoryId { get; set; }
       
-
         public IFormFile File { get; set; }
         public string Image { get; set; }
         public bool IsActive { get; set; }
@@ -67,7 +61,7 @@ namespace DishoutOLO.ViewModel
 
     public class DeleteMenuModel
     {
-        public int Id { get; set; }
+        public int Id { get; set;    }
     }
 
 }

@@ -12,6 +12,7 @@ $("#menuTbl").on("click", "a#btn-delete", function () {
 $('#delete-btn').click(function () {
     var id = $('#deleteModal').data('id');
     $.ajax({
+
         type: "GET",
         url: "/Menu/DeleteMenu",
         data: { id: id },
@@ -22,7 +23,7 @@ $('#delete-btn').click(function () {
                 }
             else {
                 $('#deleteModal').modal('hide');
-                table.ajax.reload()
+                loadAllMenu();
             }
         },
         error: function (error) {

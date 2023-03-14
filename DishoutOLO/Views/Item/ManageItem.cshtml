@@ -16,11 +16,9 @@
                     <div class="pl-lg-4">
                         <div class="col-md-12">
                             <div class="form-group">
-
                                 @Html.Label("Item Name", null,htmlAttributes: new { @class = "ml-1" })
 
                                 @Html.Editor("ItemName", new { htmlAttributes = new { @class = "form-control  required", @placeholder = "Item Name" } })
-
                             </div>
 
                             <div class="col-md-12">
@@ -49,7 +47,13 @@
                                 <div class="form-group">
                                     @Html.Label("Tax", null,htmlAttributes: new { @class = "ml-1 requiredLabel" } )
                                     @Html.RadioButton("TaxType" ,"TaxYes",new{@class="TaxType1",@id="TaxYes"})
-                                    <label for="TaxYes"> Yes</label>
+                                    <label for="TaxYes"> Y
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        es</label>
                                     @Html.RadioButton("TaxType","TaxNo", new{@class="TaxType1",@checked = true,@id="TaxNo"})
                                     <label for="TaxNo"> No</label>
                                 </div>
