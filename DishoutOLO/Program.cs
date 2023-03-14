@@ -4,17 +4,11 @@ using DishoutOLO.Repo.Interface;
 using DishoutOLO.Service;
 using DishoutOLO.Service.Interface;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Immutable;
 
 var builder = WebApplication.CreateBuilder(args);
-
 // Add services to the container.
 builder.Services.AddControllersWithViews();
- 
-
-
 builder.Services.AddScoped(typeof(IRepository<>),typeof(Repository<>));
-
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IMenuService, MenuService>();
@@ -32,7 +26,6 @@ builder.Services.AddScoped<LoggerProvider>();
 //var connectionString = builder.Configuration.GetConnectionString("ConnectionStrings:ConnectDB");
 builder.Services.AddDbContext<DishoutOLOContext>(x => x.UseSqlServer(builder.Configuration["ConnectionStrings:ConnectDB"]));
 var app = builder.Build();
-
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -43,17 +36,10 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
- 
-
-
-
 app.UseAuthorization();
-
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Category}/{action=Index}/{id?}");
 
 app.Run();

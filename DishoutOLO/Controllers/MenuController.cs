@@ -32,13 +32,15 @@ namespace DishoutOLO.Controllers
 
         #endregion
 
-
         #region Get Methods
         public IActionResult Index()
         {
             return View();
         }
-
+        /// <summary>
+        /// Create Menu
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Create()
         {
             try
@@ -53,6 +55,11 @@ namespace DishoutOLO.Controllers
             return View("ManageMenu", new AddMenuModel());
         }
 
+        /// <summary>
+        /// Get All Menu List
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
         public JsonResult GetAllMenu(DataTableFilterModel filter)
         {
             try
@@ -66,6 +73,12 @@ namespace DishoutOLO.Controllers
             }
             return Json(filter);
         }
+
+        /// <summary>
+        /// go to edit page with update data 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ActionResult Edit(int id)
         {
             try
@@ -78,11 +91,16 @@ namespace DishoutOLO.Controllers
                 _loggerProvider.logmsg(ex.Message);
             }
             return View("ManageMenu", _menuService.GetMenu(id));
-        } 
+        }
         #endregion
 
-
         #region Crud Methods
+        /// <summary>
+        /// To add or insert menu
+        /// </summary>
+        /// <param name="menuVM"></param>
+        /// <param name="file"></param>
+        /// <returns></returns>
         public JsonResult AddOrUpdateMenu(AddMenuModel menuVM, IFormFile file)
         {
             try
@@ -103,12 +121,16 @@ namespace DishoutOLO.Controllers
             }
             return Json(_menuService.AddOrUpdateMenu(menuVM, menuVM.Id > 0 ? menuVM.Image : string.Empty));
         }
+        /// <summary>
+        /// Delete Menu
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public IActionResult DeleteMenu(int id)
         {
             try
             {
                 DishoutOLOResponseModel list = _menuService.DeleteMenu(id);
-                return Json(list);
             }
             catch (Exception ex)
             {

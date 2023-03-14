@@ -63,7 +63,7 @@ function loadAllItem() {
                     return "<img src=" + imgPath + " height='50'width='90'>";
                 }
             },
-            {
+            { 
                 "data": function (show) {
                     if (show.isCombo == true) {
                         return "Yes";
@@ -76,7 +76,7 @@ function loadAllItem() {
             {
                 orderable: false,
                 "render": function (data, type, full, meta) {
-                    return ` <a href="/Item/Edit/` + full.id + `" data-id="` + full.id + `" class="btn btn-success btn-sm" title="Edit">
+                    return ` <a href="/Item/Edit/` + full.id + `" data-id="` + full.id + `" class="btn btn-success btn-sm  " title="Edit">
                  <i class="fa fa-edit"></i>
                  </a>
 

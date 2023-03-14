@@ -1,4 +1,6 @@
-﻿var table;
+﻿
+
+var table;
 $("document").ready(function () {
     loadAllCustomer();
 
@@ -11,7 +13,6 @@ $("document").ready(function () {
         toastr.success('Status Has Been Changed!')
     })
 });
-
 
 function loadAllCustomer() {
 

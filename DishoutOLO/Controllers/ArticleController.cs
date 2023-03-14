@@ -25,11 +25,19 @@ namespace DishoutOLO.Controllers
         {
             return View();
         }
-
+        /// <summary>
+        /// Create Article
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Create()
         {
             return View("ManageArticle", new AddArticleModel());
         }
+        /// <summary>
+        /// Get All Article List
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
         public JsonResult GetAllArticle(DataTableFilterModel filter)
         {
             try
@@ -43,6 +51,11 @@ namespace DishoutOLO.Controllers
             }
             return Json(filter);
         }
+        /// <summary>
+        /// go to edit page with update data 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ActionResult Edit(int id)
         {
             try
@@ -59,6 +72,11 @@ namespace DishoutOLO.Controllers
 
 
         #region Crud Methods
+        /// <summary>
+        ///  To add or insert Article
+        /// </summary>
+        /// <param name="articleVM"></param>
+        /// <returns></returns>
         public JsonResult AddOrUpdateArticle(AddArticleModel articleVM)
         {
             try
@@ -72,6 +90,11 @@ namespace DishoutOLO.Controllers
             }
             return Json(articleVM);
         }
+        /// <summary>
+        /// Delete Article
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public IActionResult DeleteArticle(int id)
         {
             try
